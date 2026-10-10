@@ -10,11 +10,13 @@ Timeout 15 s, TLS peer/host verification DISABLED (CURLOPT_SSL_VERIFYPEER=0, VER
 Body (all three values Base64-encoded, standard alphabet, no auth header):
     game=<b64(gameId)>&user_key=<b64(license key)>&serial=<b64(ANDROID_ID HWID)>
 
-- gameId / endpoint URL / "exp" handling: ciphertext at .rodata 0xE7C20 (16B) + 0xE6D08 (8B)
-  + imm32 0x19566079 + imm16 0x0107, XOR-decrypted with the 8-byte key
-  17 05 35 6D 07 D5 33 95 (@0xE76E0) -> global 0x502770 (url) / 0x502788 (gameId).
-- The UI cosmetically shows "Server: watan-keys.cu.ma" (see strings), the real POST
-  target built at runtime is venomkey.com/connect.
+- URL / gameId are **crypto-verified** (XOR key `17 05 35 6D 07 D5 33 95`, ciphertext in
+  .rodata 0xE7C20 + 0xE6D08 + immediates → .bss builders @0x23B9C8-0x23C158):
+  - URL string  = `https://venomkey.com/connect` (global 0x502770)
+  - gameId      = `PUBG` (global 0x502788 — PUBG-template leftover; b64 `UFVCRw==`)
+  - placeholder = `N/A` (global 0x5027A0, shown before login)
+- The UI cosmetically shows "Server: watan-keys.cu.ma" — its ONLY xref (0x1C92A0) is an
+  ImGui Text label in the login window; it is never used to build a request.
 - HWID = android.provider.Settings.Secure.ANDROID_ID, cached in /data/.../.hwid.
 
 ## Valid-key response (parser: 0x1B6830-0x1B6D40 + helper 0x1B5E34)

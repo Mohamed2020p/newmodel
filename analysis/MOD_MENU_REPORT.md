@@ -42,6 +42,9 @@ check for `libwolf.so`, root/anti-detection regexes from the PUBG template).
 POST https://venomkey.com/connect
 game=<base64(gameId)>&user_key=<base64(key)>&serial=<base64(ANDROID_ID)>
 ```
+- **Crypto-verified:** URL decrypts to exactly `https://venomkey.com/connect`;
+  the `game=` field decrypts to **`PUBG`** (b64 `UFVCRw==`) — a PUBG-template leftover;
+  pre-login placeholder string is `N/A`.
 - URL + gameId are **XOR-encrypted at rest** (key `17 05 35 6D 07 D5 33 95` @0xE76E0;
   ciphertext 0xE7C20/0xE6D08 + immediates) → globals 0x502770 / 0x502788.
 - base64 helper 0x1B5400, HTTP helper 0x1B5548 (timeout 15 s, `SSL_VERIFYPEER/HOST = 0`).
