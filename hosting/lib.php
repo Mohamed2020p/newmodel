@@ -139,8 +139,9 @@ function keys_save(array $rows): void
 
 function keys_find(array $rows, string $key)
 {
+    $want = strtolower(normalize_key($key));
     foreach ($rows as $i => $r) {
-        if (hash_equals((string)$r['key'], $key)) {
+        if (hash_equals(strtolower(normalize_key((string)$r['key'])), $want)) {
             return $i;
         }
     }
@@ -214,6 +215,23 @@ function ensure_post(): void
 function client_ip(): string
 {
     return $_SERVER['REMOTE_ADDR'] ?? '-';
+}
+
+/**
+ * Normalize a license key for matching:
+ *  - unicode dashes (– — ‐ ‑ ‒ – — −) and smart chars -> '-'
+ *  - remove ALL whitespace (clipboard often adds spaces/newlines)
+ * Matching itself is case-insensitive (keys_find).
+ */
+function normalize_key(string $s): string
+{
+    $s = str_replace(
+        ["\u{2010}", "\u{2011}", "\u{2012}", "\u{2013}", "\u{2014}", "\u{2212}", "\u{00A0}", "\u{2018}", "\u{2019}", "\u{201C}", "\u{201D}"],
+        ['-', '-', '-', '-', '-', '-', '', "'", "'", '"', '"'],
+        $s
+    );
+    $s = preg_replace('/\s+/u', '', $s);
+    return $s === null ? '' : $s;
 }
 
 function clean_id(string $s): string

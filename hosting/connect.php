@@ -25,7 +25,7 @@ ensure_post();
 $game   = b64d($_POST['game'] ?? '');
 $key    = b64d($_POST['user_key'] ?? '');
 $serial = b64d($_POST['serial'] ?? '');
-$key    = is_string($key) ? clean_id($key) : '';
+$key    = is_string($key) ? normalize_key(clean_id($key)) : '';
 $serial = is_string($serial) ? clean_id($serial) : '';
 
 $fail = function (string $reason) use ($key, $serial): void {
@@ -49,7 +49,8 @@ if (GAMES_ALLOWED !== ['*'] && (!is_string($game) || !in_array($game, GAMES_ALLO
 $rows = keys_load();
 $idx  = keys_find($rows, $key);
 if ($idx < 0) {
-    $fail('Invalid key');
+    // diagnostic: the admin Logs table will show exactly what arrived
+    $fail('Invalid key (received: "' . substr($key, 0, 32) . '")');
 }
 $row = $rows[$idx];
 
