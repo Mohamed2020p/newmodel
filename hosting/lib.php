@@ -2,7 +2,7 @@
 /**
  * lib.php — shared bootstrap. NO DATABASE: everything lives in plain text files.
  *
- *   data/main.txt   the keys      (one per line, format below)
+ *   main.txt        the keys, in the SAME folder as the PHP files
  *   data/logs.txt   attempt log   (auto-trimmed to ~500 lines)
  *
  * main.txt line format (pipe-separated, # lines are comments):
