@@ -1,13 +1,19 @@
-Options -Indexes
+RewriteEngine On
+RewriteBase /
 
-# The app POSTs to /connect (no extension) — route it to connect.php
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteRule ^connect/?$ connect.php [L,QSA]
-  RewriteRule ^data/ - [F,L]
-</IfModule>
+# pretty endpoint: /connect -> connect.php (the app uses /k.php which needs no rewrite)
+RewriteRule ^connect/?$ connect.php [L,QSA]
 
-# Never serve key/log/txt data files from the web
+# block direct access to data files (keys, logs)
 <FilesMatch "\.(db|sqlite|sqlite3|log|md|txt)$">
-  Require all denied
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
 </FilesMatch>
+
+# block listing the data folder (index.html inside data/ also covers this)
+RewriteRule ^data/ - [F,L]

@@ -11,7 +11,7 @@ just PHP + one writable folder. Follow exactly:
     `https://ab7mx.rf.gd/connect` (28) · max allowed is 29 chars
    - too long: `https://domi74...` (30, https adds 1 char!), `xxxxx.infinityfreeapp.com`
    - **your domain domi74.page.gd: use http:// — patch command:**
-     `python3 patch_url.py library.so "http://domi74.page.gd/connect" --label "domi74.page.gd" --brand free4us`
+     `python3 patch_url.py library.so "http://domi74.page.gd/k.php" --label "domi74.page.gd" --brand free4us`
 
 ## 2. Upload the files
 1. Open the InfinityFree **control panel → File Manager** (or FTP).
@@ -50,7 +50,7 @@ Run the patcher from this folder against the mod's `library.so`
 (extract `lib/arm64-v8a/library.so` from the APK first):
 
 ```bash
-python3 patch_url.py library.so "http://domi74.page.gd/connect" --label "domi74.page.gd" --brand free4us
+python3 patch_url.py library.so "http://domi74.page.gd/k.php" --label "domi74.page.gd" --brand free4us
 ```
 
 - it verifies the stock bytes, patches all 4 encrypted pieces, and prints hex
