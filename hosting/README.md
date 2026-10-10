@@ -124,18 +124,21 @@ opaque string, so length beyond the 16-char standard is only a display thing.
 
 ## Pointing the app at this panel
 
-The endpoint URL is XOR-encrypted inside `library.so` with key `17 05 35 6D 07 D5 33 95`:
-ciphertext at `.rodata` 0xE7C20 (16 B) + 0xE6D08 (8 B) + imm32 `0x19566079` (`nect`) +
-imm16 `0x0107` → assembled into global 0x502770. Patch by encrypting your URL with the
-same key and writing it over 0xE7C20… (keep the total length ≤ the original):
+Use the included patcher — it re-encrypts your URL and patches all 4 pieces inside
+`library.so` (rodata 0xE7C20 + 0xE6D08 + the two ARM64 immediates that hold "nect" +
+the NUL terminator), verifies the result, and prints hex find/replace pairs for
+MT Manager:
 
 ```bash
-python3 - <<'EOF'
-key = bytes([0x17,0x05,0x35,0x6d,0x07,0xd5,0x33,0x95])
-url = b"https://your-domain/connect\x00"
-print(bytes(b ^ key[i % 8] for i, b in enumerate(url)).hex())
-EOF
+python3 patch_url.py library.so http://yourdomain.rf.gd/connect --label yourdomain.rf.gd
+python3 patch_url.py library.so --show        # check current value anytime
 ```
+
+- URL limit: **28 characters**. Too long? use http:// instead of https://
+  (the app disables TLS verification, plain http works).
+- `--label` also swaps the cosmetic "Server: watan-keys.cu.ma" text for your domain.
+- Put the patched library.so back into the APK and RE-SIGN it.
+- Full InfinityFree walkthrough: `DEPLOY_INFINITYFREE.md`.
 
 #### Optional: make the app send `game=8BALL` instead of `PUBG`
 
