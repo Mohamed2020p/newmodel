@@ -165,6 +165,25 @@ EOF
 (Values verified: the same encoder reproduces the stock `PUBG` instructions byte-for-byte.)
 The panel accepts `8BALL` already — set in `GAMES_ALLOWED`.
 
+
+## Offline key bypass (no server needed at all)
+
+`make_bypass.py` patches `library.so` so **ANY key is accepted instantly, with or
+without a server**:
+
+```bash
+python3 make_bypass.py library.so        # after (or instead of) patch_url.py
+```
+
+What it changes (3 ARM64 instructions, verified):
+- `0x1B778C`: `mov w19, w0` → `mov w19, #1` — login verdict forced to success
+- `0x1B7790` + `0x23398C`: the two `tbz w0,#0,fail` branches → NOP — the failure
+  block is never entered; execution always falls into the success block
+  (logged-in flag, licensed flags, key persisted, auto-login on next start)
+
+Behavior: any non-empty key + LOGIN = instantly accepted (offline included);
+the only case still refused is a completely empty field.
+
 ## Original vendor endpoints (reference)
 
 - `https://venomkey.com/connect` — the real endpoint (crypto-verified; POST-only PHP,
