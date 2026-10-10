@@ -7,10 +7,11 @@ just PHP + one writable folder. Follow exactly:
 1. Register at infinityfree.com → **Create Account** (hosting account).
 2. Pick a **free subdomain** — this matters! The app's endpoint URL is limited to
    **28 characters**, so choose the shortest available domain, ideally `xxxxx.rf.gd`.
-   - fits:  `http://ab7mx.rf.gd/connect` (26) · `https://ab7mx.rf.gd/connect` (28)
-   - too long: `xxxxx.infinityfreeapp.com`, long names in general
-   - If your URL ends up over 28 chars: use `http://` instead of `https://`
-     (the app disables TLS verification — plain http works), or pick a shorter name.
+   - fits:  `http://domi74.page.gd/connect` (29 — exactly at the limit) ·
+    `https://ab7mx.rf.gd/connect` (28) · max allowed is 29 chars
+   - too long: `https://domi74...` (30, https adds 1 char!), `xxxxx.infinityfreeapp.com`
+   - **your domain domi74.page.gd: use http:// — patch command:**
+     `python3 patch_url.py library.so "http://domi74.page.gd/connect" --label "domi74.page.gd"`
 
 ## 2. Upload the files
 1. Open the InfinityFree **control panel → File Manager** (or FTP).
@@ -28,7 +29,7 @@ Control panel → **PHP Settings** (or "PHP Configuration") → pick **PHP 8.0 /
 | Open | Expected |
 |---|---|
 | `https://yourdomain/` | admin login page (gold/navy) |
-| `https://yourdomain/connect` | `Method Not Allowed` + **HTTP 500** ← this is CORRECT (the app only uses POST) |
+| `https://yourdomain/connect` | `Method Not Allowed` + **HTTP 500** ← this is CORRECT (the app only uses POST; the shipped `.htaccess` rewrites `/connect` → `connect.php`) |
 
 Then login (`admin` / `changeme123` — **change it in config.php first!**) and generate a test key.
 

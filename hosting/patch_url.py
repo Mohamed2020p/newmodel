@@ -19,9 +19,10 @@ Usage:
   python3 patch_url.py library.so --show            # show current values only
 
 Rules:
-  - max 28 characters. Too long? use http:// instead of https://
-    (the app disables TLS verification anyway, plain http works fine).
-    Example that fits:  http://mykeys.rf.gd/connect   (27 chars)
+  - max 29 characters (https:// adds 1 char over http://, so https URLs
+    effectively max at 28). The app disables TLS verification anyway,
+    plain http works fine.
+    Example:  http://domi74.page.gd/connect   (29 chars, fits exactly)
   - patch the SAME library.so that is inside your APK
     (lib/arm64-v8a/library.so — extract it, patch it, put it back, re-sign).
   - also optional: --label changes the cosmetic "Server:" text shown in the
@@ -30,7 +31,7 @@ Rules:
 import sys
 
 XKEY = bytes([0x17, 0x05, 0x35, 0x6D, 0x07, 0xD5, 0x33, 0x95])
-MAX_URL = 28
+MAX_URL = 29   # 30-byte slot minus the mandatory NUL terminator
 MAX_LABEL = 16
 
 # (file_offset, stock_hex, what)
@@ -73,8 +74,11 @@ def main() -> None:
         p2 = bytes(b ^ XKEY[(16 + i) % 8] for i, b in enumerate(data[0x00E6D08:0x00E6D08 + 8]))
         ia = int.from_bytes(data[IMM32_MOVZ[0]:IMM32_MOVZ[0] + 4], "little")
         ib = int.from_bytes(data[IMM32_MOVK[0]:IMM32_MOVK[0] + 4], "little")
-        tail = bytes([(ia >> 5) & 0xFF, ((ia >> 5) >> 8) & 0xFF, (ib >> 5) & 0xFF, ((ib >> 5) >> 8) & 0xFF])
-        tail = bytes(b ^ XKEY[(24 + i) % 8] for i, b in enumerate(tail))
+        tail = bytes(b ^ XKEY[(24 + i) % 8] for i, b in enumerate(
+            bytes([(ia >> 5) & 0xFF, ((ia >> 5) >> 8) & 0xFF, (ib >> 5) & 0xFF, ((ib >> 5) >> 8) & 0xFF])))
+        it = int.from_bytes(data[IMM16_TERM[0]:IMM16_TERM[0] + 4], "little")
+        tail += bytes(b ^ XKEY[(28 + i) % 8] for i, b in enumerate(
+            bytes([(it >> 5) & 0xFF, ((it >> 5) >> 8) & 0xFF])))
         label = data[LABEL_OFF:LABEL_OFF + MAX_LABEL + 2].split(b"\x00")[0]
         print("current endpoint:", (p1 + p2 + tail).split(b"\x00")[0].decode(errors="replace"))
         print("cosmetic Server: label:", label.decode(errors="replace"))
@@ -115,9 +119,9 @@ def main() -> None:
     w32 = enc[24] | enc[25] << 8 | enc[26] << 16 | enc[27] << 24
     changes.append((IMM32_MOVZ[0], enc_movz(IMM32_MOVZ[2], w32 & 0xFFFF).to_bytes(4, "little"), "movz imm (url 24-25)"))
     changes.append((IMM32_MOVK[0], enc_movk(IMM32_MOVK[2], w32 >> 16).to_bytes(4, "little"), "movk imm (url 26-27)"))
-    # piece 4: NUL terminator imm16 (w8) — always \x00\x00
-    t16 = 0x00 | 0x00 << 8
-    changes.append((IMM16_TERM[0], enc_movz(IMM16_TERM[2], t16).to_bytes(4, "little"), "mov imm (NULs)"))
+    # piece 4: imm16 for plaintext bytes 28-29 (key phase = key[(28+i)%8] via global enc)
+    t16 = enc[28] | enc[29] << 8
+    changes.append((IMM16_TERM[0], enc_movz(IMM16_TERM[2], t16).to_bytes(4, "little"), "mov imm (url 28-29 / terminator)"))
     if label:
         lb = label.encode() + b"\x00" * (MAX_LABEL + 2 - len(label))
         changes.append((LABEL_OFF, lb[:MAX_LABEL + 2], "cosmetic Server: label"))
@@ -142,6 +146,9 @@ def main() -> None:
     ib = int.from_bytes(data[IMM32_MOVK[0]:IMM32_MOVK[0] + 4], "little")
     v += bytes(b ^ XKEY[(24 + i) % 8] for i, b in enumerate(
         bytes([(ia >> 5) & 0xFF, ((ia >> 5) >> 8) & 0xFF, (ib >> 5) & 0xFF, ((ib >> 5) >> 8) & 0xFF])))
+    it = int.from_bytes(data[IMM16_TERM[0]:IMM16_TERM[0] + 4], "little")
+    v += bytes(b ^ XKEY[(28 + i) % 8] for i, b in enumerate(
+        bytes([(it >> 5) & 0xFF, ((it >> 5) >> 8) & 0xFF])))
     final = v.split(b"\x00")[0].decode()
     print(f"\ndone. runtime endpoint is now: {final}")
     if final != url:
