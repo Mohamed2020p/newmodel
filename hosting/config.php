@@ -7,13 +7,15 @@
 define('PANEL_NAME', 'License Panel');
 
 // ---------- Key generation ----------
-// Keys look like:  KEY_PREFIX-<days>-<5 random chars>   e.g. bum7md7-30-Xk2P9
+// EXACTLY matches the vendor key format:  bum7md7-12-gnMmz
+//   = 7-char prefix + '-' + 2-digit days + '-' + 5 random chars  (16 chars total)
+// Lifetime keys use 00 in the middle:  bum7md7-00-Qw7Zn
 define('KEY_PREFIX', 'bum7md7');
 define('KEY_SUFFIX_LEN', 5);
 
 // ---------- /connect validator ----------
 // Decoded game= values that are accepted. Use ['*'] to accept anything.
-// (The mod sends game=PUBG, base64 "UFVCRw==")
+// (The app sends game=PUBG — base64 "UFVCRw==" — crypto-verified from the binary.)
 define('GAMES_ALLOWED', ['PUBG']);
 
 // Max /connect attempts per IP per 60 seconds (anti-bruteforce)
@@ -31,3 +33,10 @@ define('ADMIN_USER', 'admin');
 define('ADMIN_PASSWORD_HASH', '');
 // Fallback plain password used ONLY while ADMIN_PASSWORD_HASH is empty. CHANGE IT.
 define('ADMIN_PASS_PLAIN', 'changeme123');
+
+// ---------- Storage ----------
+// NO DATABASE. Keys live in data/main.txt (created automatically), logs in
+// data/logs.txt. You can hand-edit main.txt:
+//   key|days|status|hwid|activated|expires|note
+//   bum7md7-30-Xk2P9|30|active|a1b2c3d4e5f60718|1728568800|1731160800|vip
+//   bum7md7-00-Qw7Zn|0|active||||          <- lifetime, not bound yet

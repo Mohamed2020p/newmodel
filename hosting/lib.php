@@ -1,30 +1,36 @@
 <?php
 /**
- * lib.php — shared bootstrap: config, database (SQLite), helpers.
- * The database self-creates at hosting/data/keys.db on first use.
+ * lib.php — shared bootstrap. NO DATABASE: everything lives in plain text files.
+ *
+ *   data/main.txt   the keys      (one per line, format below)
+ *   data/logs.txt   attempt log   (auto-trimmed to ~500 lines)
+ *
+ * main.txt line format (pipe-separated, # lines are comments):
+ *   key|days|status|hwid|activated|expires|note
+ *   bum7md7-30-Xk2P9|30|active|a1b2c3d4e5f60718|1728568800|1731160800|vip friend
+ *   bum7md7-00-Qw7Zn|0|active||||            <- lifetime key, not bound yet
+ *   days: 0 = lifetime · status: active|banned · timestamps are unix time, 0 = never
+ * You can also hand-edit / hand-add keys in main.txt — the panel reads it every time.
  */
 declare(strict_types=1);
 
 require_once __DIR__ . '/config.php';
 date_default_timezone_set('UTC');
 
+/* plan presets: key => [days, label] (days 0 = lifetime) */
 const PLANS = [
-    // key      => [days, label]   (days 0 = lifetime)
-    'day'    => [1,    'Day'],
-    'week'   => [7,    'Week'],
-    'month'  => [30,   'Month'],
-    'season' => [90,   'Season'],
-    'year'   => [365,  'Year'],
-    'life'   => [0,    'Lifetime'],
+    'day'    => [1,   'Day'],
+    'week'   => [7,   'Week'],
+    'month'  => [30,  'Month'],
+    'season' => [90,  'Season'],
+    'year'   => [365, 'Year'],
+    'life'   => [0,   'Lifetime'],
 ];
 
-function db(): PDO
-{
-    static $pdo = null;
-    if ($pdo !== null) {
-        return $pdo;
-    }
+/* ---------------- storage (plain text) ---------------- */
 
+function data_dir(): string
+{
     $dir = __DIR__ . '/data';
     if (!is_dir($dir)) {
         @mkdir($dir, 0775, true);
@@ -33,55 +39,123 @@ function db(): PDO
     if (!file_exists($ht)) {
         @file_put_contents($ht, "Require all denied\n");
     }
-    $dbIdx = $dir . '/.htindex.html';
-    if (!file_exists($dbIdx)) {
-        @file_put_contents($dbIdx, '');
+    if (!file_exists($dir . '/index.html')) {
+        @file_put_contents($dir . '/index.html', '');
     }
-
-    $pdo = new PDO('sqlite:' . $dir . '/keys.db');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    $pdo->exec('PRAGMA journal_mode = WAL');
-
-    $pdo->exec('CREATE TABLE IF NOT EXISTS keys (
-        id           INTEGER PRIMARY KEY AUTOINCREMENT,
-        license_key  TEXT UNIQUE NOT NULL,
-        plan         TEXT NOT NULL,
-        days         INTEGER NOT NULL,
-        status       TEXT NOT NULL DEFAULT "active",
-        hwid         TEXT,
-        activated_at INTEGER,
-        expires_at   INTEGER,
-        created_at   INTEGER NOT NULL,
-        note         TEXT DEFAULT ""
-    )');
-    $pdo->exec('CREATE TABLE IF NOT EXISTS tokens (
-        token     TEXT PRIMARY KEY,
-        license_key TEXT NOT NULL,
-        serial    TEXT NOT NULL,
-        created_at INTEGER NOT NULL
-    )');
-    $pdo->exec('CREATE TABLE IF NOT EXISTS logs (
-        id      INTEGER PRIMARY KEY AUTOINCREMENT,
-        ts      INTEGER NOT NULL,
-        ip      TEXT NOT NULL,
-        license_key TEXT NOT NULL,
-        serial  TEXT NOT NULL,
-        ok      INTEGER NOT NULL,
-        reason  TEXT NOT NULL
-    )');
-    return $pdo;
+    return $dir;
 }
 
-/* ---------------- output ---------------- */
+function key_file(): string { return data_dir() . '/main.txt'; }
+function log_file(): string { return data_dir() . '/logs.txt'; }
+
+/** Read a whole text file as array of lines (shared lock). */
+function txt_read(string $file): array
+{
+    if (!file_exists($file)) {
+        return [];
+    }
+    $fh = fopen($file, 'r');
+    if (!$fh) {
+        return [];
+    }
+    flock($fh, LOCK_SH);
+    $data = stream_get_contents($fh);
+    flock($fh, LOCK_UN);
+    fclose($fh);
+    return $data === false ? [] : explode("\n", $data);
+}
+
+/** Atomically replace a text file with the given lines (exclusive lock). */
+function txt_write(string $file, array $lines): void
+{
+    $dir = dirname($file);
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0775, true);
+    }
+    $fh = fopen($file, 'c+');
+    if (!$fh) {
+        return;
+    }
+    flock($fh, LOCK_EX);
+    ftruncate($fh, 0);
+    rewind($fh);
+    fwrite($fh, implode("\n", $lines));
+    fflush($fh);
+    flock($fh, LOCK_UN);
+    fclose($fh);
+}
+
+function txt_append(string $file, string $line): void
+{
+    $dir = dirname($file);
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0775, true);
+    }
+    file_put_contents($file, $line . "\n", FILE_APPEND | LOCK_EX);
+}
+
+/* ---------------- keys: load / save / find ---------------- */
+
+/** Load all keys from main.txt as rows: key,days,status,hwid,activated,expires,note */
+function keys_load(): array
+{
+    $rows = [];
+    foreach (txt_read(key_file()) as $line) {
+        $line = trim($line);
+        if ($line === '' || $line[0] === '#') {
+            continue;
+        }
+        $c = explode('|', $line);
+        if (count($c) < 6) {
+            continue;
+        }
+        $rows[] = [
+            'key'       => $c[0],
+            'days'      => (int)$c[1],
+            'status'    => $c[2] !== '' ? $c[2] : 'active',
+            'hwid'      => $c[3],
+            'activated' => (int)$c[4],
+            'expires'   => (int)$c[5],
+            'note'      => isset($c[6]) ? $c[6] : '',
+        ];
+    }
+    return $rows;
+}
+
+function keys_save(array $rows): void
+{
+    $lines = [
+        '# license keys — one per line: key|days|status|hwid|activated|expires|note',
+        '# days: 0 = lifetime · status: active|banned · timestamps unix, 0 = never',
+    ];
+    foreach ($rows as $r) {
+        $lines[] = implode('|', [
+            $r['key'], (string)$r['days'], $r['status'], (string)$r['hwid'],
+            (string)$r['activated'], (string)$r['expires'], str_replace(['|', "\n", "\r"], ' ', (string)$r['note']),
+        ]);
+    }
+    txt_write(key_file(), $lines);
+}
+
+function keys_find(array $rows, string $key)
+{
+    foreach ($rows as $i => $r) {
+        if (hash_equals((string)$r['key'], $key)) {
+            return $i;
+        }
+    }
+    return -1;
+}
+
+/* ---------------- output: THE response the app expects ---------------- */
 
 /**
  * Emit the EXACT response shape the mod's parser expects and exit.
- * IMPORTANT PROTOCOL FACTS (from the binary):
- *  - success body MUST contain the literal substring "status":true
- *  - failure body MUST NOT contain it
+ * PROTOCOL FACTS (from the binary):
+ *  - success body MUST contain the literal substring "status":true  (no space)
+ *  - failure body must NOT contain it, and must never be EMPTY
  *  - body must also be valid JSON (the app json-parses it too)
- *  - empty body would show the user "No response from server" — never send empty
+ *  - fields: status, token, data, exp, subtype, reason
  */
 function respond(bool $ok, string $token, string $data, string $exp, string $subtype, string $reason): void
 {
@@ -90,28 +164,27 @@ function respond(bool $ok, string $token, string $data, string $exp, string $sub
         header('Content-Type: application/json; charset=utf-8');
         header('X-Content-Type-Options: nosniff');
     }
-    $payload = [
-        'status'  => $ok,          // bool → json "status":true / "status":false (no space)
-        'token'   => $token,       // session token (stored by the app)
-        'data'    => $data,        // license payload/plan info
-        'exp'     => $exp,         // expiry, rendered as "EXPIRY TIME: <exp>"
-        'subtype' => $subtype,     // tier, rendered as "Tier <subtype>"
-        'reason'  => $reason,      // shown on the login window when status=false
-    ];
-    echo json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    echo json_encode([
+        'status'  => $ok,
+        'token'   => $token,
+        'data'    => $data,
+        'exp'     => $exp,
+        'subtype' => $subtype,
+        'reason'  => $reason,
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     exit;
 }
 
 /* ---------------- request helpers ---------------- */
 
-/** Strict-ish base64 decode with padding/space repair. Returns string or false. */
+/** Strict-ish base64 decode with padding/space repair. */
 function b64d(?string $s)
 {
     $s = trim((string)$s);
     if ($s === '') {
         return '';
     }
-    $s = str_replace(' ', '+', $s);      // hosts that mangle '+' into ' '
+    $s = str_replace(' ', '+', $s);   // some hosts mangle '+' into ' '
     $d = base64_decode($s, true);
     if ($d === false) {
         $padded = $s . str_repeat('=', (4 - strlen($s) % 4) % 4);
@@ -120,7 +193,7 @@ function b64d(?string $s)
     return $d === false ? false : trim($d);
 }
 
-/** Parse fallback for bodies PHP didn't turn into $_POST (odd content-types). */
+/** Parse fallback for bodies PHP didn't turn into $_POST. */
 function ensure_post(): void
 {
     if (!empty($_POST)) {
@@ -133,9 +206,7 @@ function ensure_post(): void
     foreach (explode('&', $raw) as $kv) {
         $p = explode('=', $kv, 2);
         if (count($p) === 2) {
-            $name  = rawurldecode($p[0]);
-            $value = str_replace(' ', '+', rawurldecode($p[1]));
-            $_POST[$name] = $value;
+            $_POST[rawurldecode($p[0])] = str_replace(' ', '+', rawurldecode($p[1]));
         }
     }
 }
@@ -145,35 +216,74 @@ function client_ip(): string
     return $_SERVER['REMOTE_ADDR'] ?? '-';
 }
 
+function clean_id(string $s): string
+{
+    $s = preg_replace('/[^A-Za-z0-9._-]/', '', substr($s, 0, 64));
+    return $s === null ? '' : $s;
+}
+
+/* ---------------- logs (data/logs.txt) ---------------- */
+
 function log_attempt(string $key, string $serial, bool $ok, string $reason): void
 {
-    try {
-        $st = db()->prepare('INSERT INTO logs (ts, ip, license_key, serial, ok, reason)
-                             VALUES (?, ?, ?, ?, ?, ?)');
-        $st->execute([time(), client_ip(), $key, $serial, $ok ? 1 : 0, $reason]);
-    } catch (Throwable $e) {
-        // never let logging break the response
+    $line = implode('|', [
+        (string)time(), client_ip(), clean_id($key), clean_id($serial),
+        $ok ? '1' : '0', str_replace(['|', "\n", "\r"], ' ', $reason),
+    ]);
+    txt_append(log_file(), $line);
+
+    $lines = array_values(array_filter(array_map('trim', txt_read(log_file())), function ($l) {
+        return $l !== '';
+    }));
+    if (count($lines) > 500) {
+        txt_write(log_file(), array_slice($lines, -500));
     }
+}
+
+function logs_recent(int $n = 50): array
+{
+    $lines = array_values(array_filter(array_map('trim', txt_read(log_file())), function ($l) {
+        return $l !== '';
+    }));
+    $lines = array_slice($lines, -$n);
+    $out = [];
+    foreach (array_reverse($lines) as $l) {
+        $c = explode('|', $l);
+        if (count($c) >= 6) {
+            $out[] = ['ts' => (int)$c[0], 'ip' => $c[1], 'key' => $c[2], 'serial' => $c[3], 'ok' => (int)$c[4], 'reason' => $c[5]];
+        }
+    }
+    return $out;
 }
 
 function rate_limited(): bool
 {
-    try {
-        $st = db()->prepare('SELECT COUNT(*) AS c FROM logs WHERE ip = ? AND ts > ?');
-        $st->execute([client_ip(), time() - 60]);
-        $row = $st->fetch();
-        return (int)$row['c'] >= RATE_LIMIT;
-    } catch (Throwable $e) {
-        return false;
+    $now = time();
+    $ip  = client_ip();
+    $n   = 0;
+    foreach (txt_read(log_file()) as $l) {
+        $c = explode('|', $l);
+        if (count($c) >= 2 && $c[1] === $ip && (int)$c[0] > $now - 60) {
+            $n++;
+            if ($n >= RATE_LIMIT) {
+                return true;
+            }
+        }
     }
+    return false;
 }
 
-/* ---------------- key generation ---------------- */
+/* ---------------- key generation (vendor-identical format) ---------------- */
 
+/**
+ * The vendor key example: bum7md7-12-gnMmz  =  16 chars total:
+ *   7-char prefix + '-' + 2-digit days + '-' + 5 random chars.
+ * This generator produces exactly that shape (days zero-padded to 2 digits,
+ * lifetime = 00; durations over 99 days use the full number, e.g. 365).
+ */
 function random_suffix(int $len): string
 {
-    // no visually-confusing chars (0/O, 1/l/I)
-    $alphabet = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789';
+    $alphabet = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789'; // no 0/O/1/l/I
     $out = '';
     for ($i = 0; $i < $len; $i++) {
         $out .= $alphabet[random_int(0, strlen($alphabet) - 1)];
@@ -181,21 +291,28 @@ function random_suffix(int $len): string
     return $out;
 }
 
-/** Generate a unique key like bum7md7-30-Xk2P9 and INSERT it. Returns the key. */
-function create_key(int $days, string $planKey, string $note = ''): string
+function make_key(int $days): string
 {
-    $pdo = db();
-    $attempts = 0;
-    do {
-        $key  = KEY_PREFIX . '-' . ($days > 0 ? $days : 9999) . '-' . random_suffix(KEY_SUFFIX_LEN);
-        $dup  = $pdo->prepare('SELECT 1 FROM keys WHERE license_key = ?');
-        $dup->execute([$key]);
-        $attempts++;
-    } while ($dup->fetch() && $attempts < 20);
+    $mid = $days > 0 ? ($days <= 99 ? sprintf('%02d', $days) : (string)$days) : '00';
+    return KEY_PREFIX . '-' . $mid . '-' . random_suffix(KEY_SUFFIX_LEN);
+}
 
-    $st = $pdo->prepare('INSERT INTO keys (license_key, plan, days, status, created_at, note)
-                         VALUES (?, ?, ?, "active", ?, ?)');
-    $st->execute([$key, $planKey, $days, time(), $note]);
+/** Append a new key row to main.txt (loads+saves). Returns the key. */
+function create_key(int $days, string $note = ''): string
+{
+    $rows = keys_load();
+    $exists = function (string $k) use ($rows): bool {
+        return keys_find($rows, $k) !== -1;
+    };
+    do {
+        $key = make_key($days);
+    } while ($exists($key));
+    $rows[] = [
+        'key' => $key, 'days' => $days, 'status' => 'active',
+        'hwid' => '', 'activated' => 0, 'expires' => 0,
+        'note' => str_replace(['|', "\n", "\r"], ' ', $note),
+    ];
+    keys_save($rows);
     return $key;
 }
 
@@ -204,7 +321,7 @@ function plan_label(string $planKey): string
     return isset(PLANS[$planKey]) ? PLANS[$planKey][1] : ucfirst($planKey);
 }
 
-/* ---------------- admin auth ---------------- */
+/* ---------------- admin auth / csrf ---------------- */
 
 function is_logged(): bool
 {

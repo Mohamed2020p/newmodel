@@ -1,6 +1,7 @@
 <?php
 /**
  * index.php — admin panel: login, key generator, key management, logs.
+ * Storage: plain text files only (data/main.txt + data/logs.txt). No database.
  */
 declare(strict_types=1);
 session_start();
@@ -43,42 +44,55 @@ if ($action === 'generate') {
     $note    = trim((string)($_POST['note'] ?? ''));
     $custom  = (int)($_POST['custom_days'] ?? 0);
     if ($custom > 0) {
-        $days = min(9999, $custom);
-        $planKey = $days . 'd';
-    } elseif (!isset(PLANS[$planKey])) {
-        $planKey = 'month';
+        $days = min(999, $custom);
+    } elseif (isset(PLANS[$planKey])) {
+        $days = PLANS[$planKey][0];
+    } else {
+        $days = 30;
     }
-    $days = $custom > 0 ? $days : PLANS[$planKey][0];
     $made = [];
     try {
         for ($i = 0; $i < $qty; $i++) {
-            $made[] = create_key($days, $planKey, $note);
+            $made[] = create_key($days, $note);
         }
-        $msg = 'Generated ' . count($made) . ' key(s):<br>' .
-               implode('<br>', array_map('e', $made));
+        $msg = 'Generated ' . count($made) . ' key(s):<br><span class="key">' .
+               implode('</span><br><span class="key">', array_map('e', $made)) . '</span>';
     } catch (Throwable $ex) {
         $err = 'Generation failed: ' . e($ex->getMessage());
     }
 } elseif ($action === 'reset') {
     check_csrf();
-    db()->prepare('UPDATE keys SET hwid = NULL, activated_at = NULL, expires_at = NULL, status = "active" WHERE id = ?')
-        ->execute([(int)($_POST['id'] ?? 0)]);
-    $msg = 'HWID reset — key can be activated again on any device';
+    $k = (string)($_POST['k'] ?? '');
+    $rows = keys_load();
+    $idx  = keys_find($rows, $k);
+    if ($idx >= 0) {
+        $rows[$idx]['hwid']      = '';
+        $rows[$idx]['activated'] = 0;
+        $rows[$idx]['expires']   = 0;
+        $rows[$idx]['status']    = 'active';
+        keys_save($rows);
+        $msg = 'HWID reset — ' . e($k) . ' can be activated again on any device';
+    }
 } elseif ($action === 'toggle') {
     check_csrf();
-    $id = (int)($_POST['id'] ?? 0);
-    $st = db()->prepare('SELECT status FROM keys WHERE id = ?');
-    $st->execute([$id]);
-    $row = $st->fetch();
-    if ($row) {
-        $new = $row['status'] === 'active' ? 'disabled' : 'active';
-        db()->prepare('UPDATE keys SET status = ? WHERE id = ?')->execute([$new, $id]);
-        $msg = 'Key ' . ($new === 'active' ? 'enabled' : 'banned');
+    $k = (string)($_POST['k'] ?? '');
+    $rows = keys_load();
+    $idx  = keys_find($rows, $k);
+    if ($idx >= 0) {
+        $rows[$idx]['status'] = $rows[$idx]['status'] === 'active' ? 'banned' : 'active';
+        keys_save($rows);
+        $msg = 'Key ' . e($k) . ' is now ' . $rows[$idx]['status'];
     }
 } elseif ($action === 'delete') {
     check_csrf();
-    db()->prepare('DELETE FROM keys WHERE id = ?')->execute([(int)($_POST['id'] ?? 0)]);
-    $msg = 'Key deleted';
+    $k = (string)($_POST['k'] ?? '');
+    $rows = keys_load();
+    $idx  = keys_find($rows, $k);
+    if ($idx >= 0) {
+        array_splice($rows, $idx, 1);
+        keys_save($rows);
+        $msg = 'Key deleted';
+    }
 }
 
 render_dashboard($msg, $err);
@@ -115,10 +129,10 @@ function status_of(array $k): string
     if ($k['status'] !== 'active') {
         return 'banned';
     }
-    if ($k['hwid'] === null || $k['hwid'] === '') {
+    if ($k['hwid'] === '' || $k['hwid'] === null) {
         return 'unbound';
     }
-    if ($k['expires_at'] !== null && (int)$k['expires_at'] < time()) {
+    if ((int)$k['expires'] > 0 && (int)$k['expires'] < time()) {
         return 'expired';
     }
     return 'active';
@@ -128,17 +142,17 @@ function render_dashboard(string $msg, string $err): void
 {
     $name  = PANEL_NAME;
     $csrf  = e(csrf_token());
-    $pdo   = db();
+    $rows  = keys_load();
 
     $stats = ['total' => 0, 'active' => 0, 'unbound' => 0, 'expired' => 0, 'banned' => 0];
-    foreach ($pdo->query('SELECT * FROM keys')->fetchAll() as $k) {
+    foreach ($rows as $k) {
         $stats['total']++;
         $stats[status_of($k)]++;
     }
 
     $plansHtml = '';
     foreach (PLANS as $pk => $p) {
-        $plansHtml .= '<option value="' . e($pk) . '">' . e($p[1]) . ($p[0] ? ' (' . $p[0] . 'd)' : '') . '</option>';
+        $plansHtml .= '<option value="' . e($pk) . '">' . e($p[1]) . ($p[0] ? ' (' . sprintf('%02d', $p[0]) . 'd)' : ' (00d)') . '</option>';
     }
 
     echo <<<HTML
@@ -152,7 +166,7 @@ h1{color:#f2d15c;font-size:22px}h2{color:#9ea8bf;font-size:14px;text-transform:u
 .stat{flex:1;min-width:110px;background:#0a1220;border:1px solid #1c2f4d;border-radius:10px;padding:12px;text-align:center}
 .stat b{display:block;font-size:22px;color:#f2d15c}
 .stat span{font-size:12px;color:#9ea8bf}
-input,select,textarea{background:#0a1220;border:1px solid #294a7a;color:#fff;border-radius:8px;padding:9px 11px;font-size:14px}
+input,select{background:#0a1220;border:1px solid #294a7a;color:#fff;border-radius:8px;padding:9px 11px;font-size:14px}
 button{background:#4296fa;border:0;border-radius:8px;color:#fff;font-weight:600;padding:9px 16px;cursor:pointer}
 button:hover{background:#0f87fa}
 button.warn{background:#bf4040}button.gray{background:#37373c}button.ok{background:#1f7a3d}
@@ -168,7 +182,6 @@ td form{display:inline}
 .err{background:#3a1420;border:1px solid #bf4040;color:#ff9c9c;border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:14px}
 form.inline{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .small{color:#8a93a8;font-size:12px}
-a{color:#4296fa}
 </style></head><body><div class="wrap">
 <h1>$name</h1>
 HTML;
@@ -187,26 +200,26 @@ HTML;
     echo '<input type="hidden" name="csrf" value="' . $csrf . '"><input type="hidden" name="action" value="generate">';
     echo '<select name="plan">' . $plansHtml . '</select>';
     echo '<input type="number" name="qty" value="1" min="1" max="100" style="width:80px" title="Quantity">';
-    echo '<input type="number" name="custom_days" placeholder="custom days" min="1" max="9999" style="width:130px">';
+    echo '<input type="number" name="custom_days" placeholder="custom days" min="1" max="999" style="width:130px">';
     echo '<input name="note" placeholder="note (optional)" style="flex:1;min-width:160px">';
     echo '<button>Create</button></form>';
-    echo '<p class="small">Format: ' . e(KEY_PREFIX) . '-&lt;days&gt;-&lt;random&gt; &nbsp;e.g.&nbsp; ' .
-         e(KEY_PREFIX) . '-30-Xk2P9 &nbsp;·&nbsp; keys bind to the first device that uses them (HWID lock)</p></div>';
+    echo '<p class="small">Format identical to the vendor key <span class="key">bum7md7-12-gnMmz</span> '
+       . '(16 chars: ' . e(KEY_PREFIX) . '-NN-XXXXX, days zero-padded, lifetime = 00). '
+       . 'Keys are stored in <span class="key">data/main.txt</span> — you can also add keys there by hand.</p></div>';
 
     // keys table
     echo '<h2>Keys</h2><div class="card" style="overflow-x:auto"><table><tr>';
-    echo '<th>Key</th><th>Plan</th><th>Status</th><th>Device (HWID)</th><th>Activated</th><th>Expires</th><th>Note</th><th>Actions</th></tr>';
-    $rows = $pdo->query('SELECT * FROM keys ORDER BY id DESC LIMIT 500')->fetchAll();
+    echo '<th>Key</th><th>Days</th><th>Status</th><th>Device (HWID)</th><th>Activated</th><th>Expires</th><th>Note</th><th>Actions</th></tr>';
     foreach ($rows as $k) {
         $st = status_of($k);
-        echo '<tr><td class="key">' . e($k['license_key']) . '</td>';
-        echo '<td>' . e(plan_label((string)$k['plan'])) . ($k['days'] > 0 ? ' (' . (int)$k['days'] . 'd)' : '') . '</td>';
+        echo '<tr><td class="key">' . e((string)$k['key']) . '</td>';
+        echo '<td>' . ($k['days'] > 0 ? (int)$k['days'] . 'd' : 'lifetime') . '</td>';
         echo '<td><span class="tag ' . $st . '">' . $st . '</span></td>';
-        echo '<td class="key" style="font-size:11px">' . e((string)($k['hwid'] ?? '')) . '</td>';
-        echo '<td>' . ($k['activated_at'] ? e(gmdate('Y-m-d H:i', (int)$k['activated_at'])) : '—') . '</td>';
-        echo '<td>' . ($k['expires_at'] ? e(gmdate('Y-m-d H:i', (int)$k['expires_at'])) : ($k['activated_at'] ? 'Never' : '—')) . '</td>';
+        echo '<td class="key" style="font-size:11px">' . e((string)$k['hwid']) . '</td>';
+        echo '<td>' . ($k['activated'] ? e(gmdate('Y-m-d H:i', (int)$k['activated'])) : '—') . '</td>';
+        echo '<td>' . ($k['expires'] ? e(gmdate('Y-m-d H:i', (int)$k['expires'])) : ($k['activated'] ? 'Never' : '—')) . '</td>';
         echo '<td>' . e((string)$k['note']) . '</td><td>';
-        echo '<form method="post"><input type="hidden" name="csrf" value="' . $csrf . '"><input type="hidden" name="id" value="' . (int)$k['id'] . '">';
+        echo '<form method="post"><input type="hidden" name="csrf" value="' . $csrf . '"><input type="hidden" name="k" value="' . e((string)$k['key']) . '">';
         echo '<button class="gray" name="action" value="reset" title="unbind device">Reset</button> ';
         echo '<button class="' . ($st === 'banned' ? 'ok' : 'warn') . '" name="action" value="toggle">' . ($st === 'banned' ? 'Enable' : 'Ban') . '</button> ';
         echo '<button class="gray" name="action" value="delete" onclick="return confirm(\'Delete this key?\')">Del</button></form></td></tr>';
@@ -219,16 +232,13 @@ HTML;
     // logs
     echo '<h2>Recent /connect attempts</h2><div class="card" style="overflow-x:auto"><table><tr>';
     echo '<th>Time (UTC)</th><th>IP</th><th>Key</th><th>Serial</th><th>Result</th><th>Reason</th></tr>';
-    $logs = $pdo->query('SELECT * FROM logs ORDER BY id DESC LIMIT 50')->fetchAll();
-    foreach ($logs as $l) {
-        echo '<tr><td>' . e(gmdate('m-d H:i:s', (int)$l['ts'])) . '</td><td>' . e($l['ip']) . '</td>';
-        echo '<td class="key">' . e($l['license_key']) . '</td><td class="key" style="font-size:11px">' . e($l['serial']) . '</td>';
-        echo '<td>' . ((int)$l['ok'] === 1 ? '<span class="tag active">OK</span>' : '<span class="tag banned">FAIL</span>') . '</td>';
+    foreach (logs_recent(50) as $l) {
+        echo '<tr><td>' . e(gmdate('m-d H:i:s', $l['ts'])) . '</td><td>' . e($l['ip']) . '</td>';
+        echo '<td class="key">' . e($l['key']) . '</td><td class="key" style="font-size:11px">' . e($l['serial']) . '</td>';
+        echo '<td>' . ($l['ok'] === 1 ? '<span class="tag active">OK</span>' : '<span class="tag banned">FAIL</span>') . '</td>';
         echo '<td>' . e($l['reason']) . '</td></tr>';
     }
-    if (!$logs) {
-        echo '<tr><td colspan="6" class="small">No attempts yet.</td></tr>';
-    }
+    if (!$rows) { /* keep php quiet */ }
     echo '</table></div>';
 
     echo '<p class="small">Validator endpoint for the app: <span class="key">https://your-domain/connect</span> (POST) · ';
