@@ -173,8 +173,10 @@ About tab: “Developer: @bum7md8”, “Contact @bum7md8 on Telegram”.
 | `assets/mod_menu/palette.json` | complete color system (5 clusters, machine-readable) |
 | `assets/mod_menu/license_api_contract.md` | key-server request/response contract |
 | `assets/mod_menu/strings_mod_menu.txt` | 1,381 decoded mod strings (`.rodata` 0xE9000–0xF9FFF) |
-| `assets/mod_menu/encrypted_payload/` | `j1O1pP4cpnaLPxs2xoSf` — 65 files, container magic 0x10FF1CE1, encrypted |
-| `assets/mod_menu/encrypted_overlay_libs/` | the 13 fake `.so` blobs, encrypted |
+
+Additionally, inside the APK itself (not stored in this repo): the encrypted payload container
+`assets/j1O1pP4cpnaLPxs2xoSf` (65 files, container magic 0x10FF1CE1) and the 13 fake `.so`
+blobs under `assets/a0rjgdfbjd8fhfglkew6/2de1a92e00ace60a/<abi>/` — both still encrypted.
 
 The 4.0 MB data blob at file offset 0xE7048 contains a duplicate of the logo + ~4 MB of float
 tables (style/vertex/font data); not a separate image.

@@ -15,8 +15,7 @@ The split APK parts in `large/` are joined into `large/app.apk` (gitignored, 123
   - `palette.json` — all colors (ImGui theme, Gold Edition brand, ESP defaults, picker swatches)
   - `license_api_contract.md` — venomkey.com/connect request + valid-key response contract
   - `strings_mod_menu.txt` — 1,381 decoded mod strings
-  - `encrypted_payload/` + `encrypted_overlay_libs/` — still-encrypted container assets
-- **`large/`** — original split APK parts (source of truth, unmodified).
+- **`large/`** — the original split APK parts (source data, unmodified).
 
-The original APK remains untouched; all game assets (Miniclip side) were intentionally removed
-from the repo to keep it mod-menu-only.
+Nothing else is tracked: game assets, decompiled sources, and encrypted mod blobs
+(`j1O1pP4cpnaLPxs2xoSf`, fake `.so` files) live only inside `large/app.apk` / the APK itself.
