@@ -50,7 +50,7 @@ $rows = keys_load();
 $idx  = keys_find($rows, $key);
 if ($idx < 0) {
     // diagnostic: the admin Logs table will show exactly what arrived
-    $fail('Invalid key (received: "' . substr($key, 0, 32) . '")');
+    $fail('makhdamach');
 }
 $row = $rows[$idx];
 
