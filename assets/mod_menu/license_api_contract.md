@@ -10,6 +10,9 @@ Timeout 15 s, TLS peer/host verification DISABLED (CURLOPT_SSL_VERIFYPEER=0, VER
 Body (all three values Base64-encoded, standard alphabet, no auth header):
     game=<b64(gameId)>&user_key=<b64(license key)>&serial=<b64(ANDROID_ID HWID)>
 
+(gameId = 'PUBG' as shipped — PUBG-template leftover; patchable to '8BALL' at
+immediates 0x23C0C8/0x23C0D8/0x23C0DC, see hosting/README.md.)
+
 - URL / gameId are **crypto-verified** (XOR key `17 05 35 6D 07 D5 33 95`, ciphertext in
   .rodata 0xE7C20 + 0xE6D08 + immediates → .bss builders @0x23B9C8-0x23C158):
   - URL string  = `https://venomkey.com/connect` (global 0x502770)

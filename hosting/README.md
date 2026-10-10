@@ -61,6 +61,10 @@ game=<base64(gameId)>&user_key=<base64(license key)>&serial=<base64(ANDROID_ID)>
 ```
 - The app sends exactly: `game` → `PUBG` (`UFVCRw==`), `user_key` → the typed key,
   `serial` → device HWID (ANDROID_ID).
+- **About `PUBG`:** this mod menu is for 8 Ball Pool, but the author reused a PUBG cheat
+  template and hardcoded `game=PUBG` inside `library.so` (crypto-verified). The stock app
+  therefore always sends `PUBG`. The panel accepts BOTH `PUBG` (stock app) and `8BALL`
+  (app after the optional game-id patch below) — see `GAMES_ALLOWED` in `config.php`.
 - Timeout 15 s · TLS verification disabled in the app (any cert works) ·
   GET must fail (original returns HTTP 500 — this panel mimics it).
 
@@ -133,7 +137,28 @@ print(bytes(b ^ key[i % 8] for i, b in enumerate(url)).hex())
 EOF
 ```
 
-`game=` stays `PUBG` — the panel accepts it.
+#### Optional: make the app send `game=8BALL` instead of `PUBG`
+
+The game id is built from 3 ARM64 immediates at 0x23C0C8 / 0x23C0D8 / 0x23C0DC in
+`library.so` (file offset == virtual address in this .so). Patch for `8BALL`:
+
+```bash
+python3 - <<'EOF'
+import struct
+p = 'library.so'
+d = bytearray(open(p, 'rb').read())
+# stock: 528A08E8 72A54EE8 528020E9  (= "PUBG")
+patch = [(0x23C0C8, 0x5288E5E8),   # movz w8, #0x472F   ('8','B' xor key)
+         (0x23C0D8, 0x72842E88),   # movk w8, #0x2174, lsl 16 ('A','L')
+         (0x23C0DC, 0x529AA969)]   # movz w9, #0xD54B   ('L', NUL)
+for off, word in patch:
+    d[off:off+4] = struct.pack('<I', word)
+open(p, 'wb').write(bytes(d))
+print("game id is now 8BALL")
+EOF
+```
+(Values verified: the same encoder reproduces the stock `PUBG` instructions byte-for-byte.)
+The panel accepts `8BALL` already — set in `GAMES_ALLOWED`.
 
 ## Original vendor endpoints (reference)
 

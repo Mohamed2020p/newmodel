@@ -4,7 +4,7 @@
  */
 
 // Panel name shown in the admin UI
-define('PANEL_NAME', 'License Panel');
+define('PANEL_NAME', '8 Ball Pool Panel');
 
 // ---------- Key generation ----------
 // EXACTLY matches the vendor key format:  bum7md7-12-gnMmz
@@ -14,9 +14,14 @@ define('KEY_PREFIX', 'bum7md7');
 define('KEY_SUFFIX_LEN', 5);
 
 // ---------- /connect validator ----------
-// Decoded game= values that are accepted. Use ['*'] to accept anything.
-// (The app sends game=PUBG — base64 "UFVCRw==" — crypto-verified from the binary.)
-define('GAMES_ALLOWED', ['PUBG']);
+// This panel IS for the 8 Ball Pool mod menu. NOTE: the stock mod app sends
+// game=PUBG (base64 "UFVCRw==") — the mod author reused a PUBG template and the
+// game id "PUBG" is hardcoded in library.so (crypto-verified). So:
+//   'PUBG'  → accepted (what the UNMODIFIED app sends)
+//   '8BALL' → accepted (what the app sends AFTER the optional game-id patch,
+//              see README "Pointing the app at this panel")
+// Use ['*'] to accept anything.
+define('GAMES_ALLOWED', ['PUBG', '8BALL']);
 
 // Max /connect attempts per IP per 60 seconds (anti-bruteforce)
 define('RATE_LIMIT', 30);
