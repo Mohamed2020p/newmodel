@@ -17,6 +17,10 @@ declare(strict_types=1);
 require_once __DIR__ . '/config.php';
 date_default_timezone_set('UTC');
 
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
 /* plan presets: key => [days, label] (days 0 = lifetime) */
 const PLANS = [
     'day'    => [1,   'Day'],
@@ -45,8 +49,44 @@ function data_dir(): string
     return $dir;
 }
 
-function key_file(): string { return __DIR__ . '/main.txt'; }   // htdocs/main.txt
+/**
+ * Keys file: main.txt in the SAME folder as the PHP files (htdocs/main.txt).
+ * If an old data/main.txt exists (previous layout) it is used so nothing is lost;
+ * new keys are always written to the root file.
+ */
+function key_file(): string
+{
+    $root = __DIR__ . '/main.txt';
+    if (file_exists($root)) {
+        return $root;
+    }
+    $old = data_dir() . '/main.txt';
+    return file_exists($old) ? $old : $root;
+}
+
 function log_file(): string { return data_dir() . '/logs.txt'; }
+
+/** License status of one key row (unified for connect.php + admin). */
+function key_status(array $k): string
+{
+    if (strtolower((string)$k['status']) !== 'active') {
+        return 'banned';
+    }
+    if ((string)$k['hwid'] === '' || $k['hwid'] === null) {
+        return 'unbound';
+    }
+    if ((int)$k['expires'] > 0 && (int)$k['expires'] < time()) {
+        return 'expired';
+    }
+    return 'active';
+}
+
+/** Human date or fallback dash. */
+function fmt_date($ts): string
+{
+    $ts = (int)$ts;
+    return $ts > 0 ? gmdate('Y-m-d H:i', $ts) : '—';
+}
 
 /** Read a whole text file as array of lines (shared lock). */
 function txt_read(string $file): array

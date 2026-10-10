@@ -1,14 +1,13 @@
 <?php
 /**
- * index.php — admin panel: login, key generator, key management, logs.
- * Storage: plain text files only (data/main.txt + data/logs.txt). No database.
+ * index.php — admin panel (Tailwind CSS + Poppins).
+ * Keys file: main.txt next to the PHP files. Logs: data/logs.txt.
  */
 declare(strict_types=1);
-session_start();
 require_once __DIR__ . '/lib.php';
 
-$msg = '';
 $err = '';
+$msg = '';
 
 // ---------- logout ----------
 if (($_POST['action'] ?? '') === 'logout') {
@@ -50,13 +49,12 @@ if ($action === 'generate') {
     } else {
         $days = 30;
     }
-    $made = [];
     try {
+        $made = [];
         for ($i = 0; $i < $qty; $i++) {
             $made[] = create_key($days, $note);
         }
-        $msg = 'Generated ' . count($made) . ' key(s):<br><span class="key">' .
-               implode('</span><br><span class="key">', array_map('e', $made)) . '</span>';
+        $msg = 'Generated ' . count($made) . ' key' . (count($made) > 1 ? 's' : '');
     } catch (Throwable $ex) {
         $err = 'Generation failed: ' . e($ex->getMessage());
     }
@@ -74,35 +72,35 @@ if ($action === 'generate') {
             $rows[] = ['key' => $k, 'days' => $d, 'status' => 'active',
                        'hwid' => '', 'activated' => 0, 'expires' => 0, 'note' => 'manual'];
             keys_save($rows);
-            $msg = 'Key added: <span class="key">' . e($k) . '</span> (' . ($d > 0 ? $d . ' days' : 'lifetime') . ')';
+            $msg = 'Key added: ' . $k . ' (' . ($d > 0 ? $d . ' days' : 'lifetime') . ')';
         }
     }
 } elseif ($action === 'reset') {
     check_csrf();
-    $k = (string)($_POST['k'] ?? '');
-    $rows = keys_load();
-    $idx  = keys_find($rows, $k);
+    $k     = (string)($_POST['k'] ?? '');
+    $rows  = keys_load();
+    $idx   = keys_find($rows, $k);
     if ($idx >= 0) {
         $rows[$idx]['hwid']      = '';
         $rows[$idx]['activated'] = 0;
         $rows[$idx]['expires']   = 0;
         $rows[$idx]['status']    = 'active';
         keys_save($rows);
-        $msg = 'HWID reset — ' . e($k) . ' can be activated again on any device';
+        $msg = 'HWID reset — ' . $k . ' can be activated again';
     }
 } elseif ($action === 'toggle') {
     check_csrf();
-    $k = (string)($_POST['k'] ?? '');
+    $k    = (string)($_POST['k'] ?? '');
     $rows = keys_load();
     $idx  = keys_find($rows, $k);
     if ($idx >= 0) {
-        $rows[$idx]['status'] = $rows[$idx]['status'] === 'active' ? 'banned' : 'active';
+        $rows[$idx]['status'] = strtolower($rows[$idx]['status']) === 'active' ? 'banned' : 'active';
         keys_save($rows);
-        $msg = 'Key ' . e($k) . ' is now ' . $rows[$idx]['status'];
+        $msg = $k . ' is now ' . $rows[$idx]['status'];
     }
 } elseif ($action === 'delete') {
     check_csrf();
-    $k = (string)($_POST['k'] ?? '');
+    $k    = (string)($_POST['k'] ?? '');
     $rows = keys_load();
     $idx  = keys_find($rows, $k);
     if ($idx >= 0) {
@@ -110,167 +108,218 @@ if ($action === 'generate') {
         keys_save($rows);
         $msg = 'Key deleted';
     }
+} elseif ($action === 'clearlogs') {
+    check_csrf();
+    txt_write(log_file(), []);
+    $msg = 'Logs cleared';
 }
 
 render_dashboard($msg, $err);
 
 /* ================= views ================= */
 
+function head(string $title, bool $center = false): void
+{
+    $bg = 'assets/bg.jpg';
+    echo <<<HTML
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>$title</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>tailwind.config={theme:{extend:{fontFamily:{poppins:['Poppins','sans-serif']},colors:{night:'#0d1421',panel:'#111a2b',edge:'#223250',gold:'#f2d15c',goldd:'#c79e3d'}}}}</script>
+<style>
+body{font-family:'Poppins',sans-serif;background:#0d1421 url('$bg') center/cover fixed;}
+.card{background:rgba(17,26,43,.92);backdrop-filter:blur(10px);border:1px solid #223250;border-radius:1rem;}
+.gold-text{background:linear-gradient(135deg,#f7e08b,#f2d15c 45%,#c79e3d);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.btn{transition:all .15s ease}.btn:active{transform:scale(.97)}
+::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-thumb{background:#223250;border-radius:9px}
+table tbody tr:hover{background:rgba(66,150,250,.05)}
+</style></head><body class="min-h-screen text-slate-200">
+HTML;
+}
+
+function logo(int $size = 72): void
+{
+    echo '<img src="assets/logo.png" alt="" style="width:' . $size . 'px;height:auto" class="drop-shadow-[0_0_18px_rgba(242,209,92,.25)]">';
+}
+
+function toast(string $msg, string $err): void
+{
+    if ($msg === '' && $err === '') {
+        return;
+    }
+    $ok  = ($msg !== '');
+    $txt = $ok ? $msg : $err;
+    echo '<div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl shadow-2xl text-sm font-medium border '
+        . ($ok ? 'bg-emerald-950/95 border-emerald-600 text-emerald-200'
+               : 'bg-rose-950/95 border-rose-600 text-rose-200') . '">'
+        . e($txt) . '</div>
+<script>setTimeout(()=>{const t=document.getElementById("toast");if(t)t.remove()},4000)</script>';
+}
+
 function render_login(string $err): void
 {
     $name = PANEL_NAME;
-    echo <<<HTML
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>$name — Login</title><style>
-body{background:#0d1421;color:#e8eefc;font-family:system-ui,Segoe UI,Arial,sans-serif;display:flex;min-height:100vh;align-items:center;justify-content:center;margin:0}
-.card{background:#0f1a2e;border:1px solid #294a7a;border-radius:12px;padding:32px;width:340px}
-h1{color:#f2d15c;font-size:20px;margin:0 0 18px;text-align:center}
-input{width:100%;box-sizing:border-box;background:#0a1220;border:1px solid #294a7a;color:#fff;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:14px}
-button{width:100%;background:#4296fa;border:0;border-radius:8px;color:#fff;font-weight:600;padding:11px;font-size:15px;cursor:pointer}
-button:hover{background:#0f87fa}
-.err{background:#3a1420;border:1px solid #bf4040;color:#ff9c9c;border-radius:8px;padding:9px 12px;margin-bottom:12px;font-size:13px}
-</style></head><body><div class="card"><h1>$name</h1>
-HTML;
-    if ($err !== '') {
-        echo '<div class="err">' . e($err) . '</div>';
-    }
-    echo '<form method="post"><input type="hidden" name="csrf" value="' . e(csrf_token()) . '">';
-    echo '<input type="hidden" name="action" value="login">';
-    echo '<input name="user" placeholder="Username" autofocus>';
-    echo '<input name="pass" type="password" placeholder="Password">';
-    echo '<button>Login</button></form></div></body></html>';
+    head($name . ' — Login', true);
+    toast('', $err);
+    echo '<div class="min-h-screen flex items-center justify-center p-4">';
+    echo '<div class="card w-full max-w-sm px-8 py-10 text-center">';
+    logo(96);
+    echo '<h1 class="mt-4 text-2xl font-bold gold-text tracking-wide">' . e($name) . '</h1>';
+    echo '<p class="text-slate-400 text-xs mt-1 mb-8">key generator &amp; validator</p>';
+    echo '<form method="post" class="space-y-4 text-left">';
+    echo '<input type="hidden" name="csrf" value="' . e(csrf_token()) . '"><input type="hidden" name="action" value="login">';
+    echo '<input name="user" placeholder="Username" autofocus class="w-full bg-night/80 border border-edge rounded-xl px-4 py-3 text-sm outline-none focus:border-gold transition">';
+    echo '<input name="pass" type="password" placeholder="Password" class="w-full bg-night/80 border border-edge rounded-xl px-4 py-3 text-sm outline-none focus:border-gold transition">';
+    echo '<button class="btn w-full rounded-xl py-3 font-semibold text-night bg-gradient-to-r from-gold to-goldd hover:brightness-110 shadow-lg shadow-gold/20">LOGIN</button>';
+    echo '</form></div></div></body></html>';
 }
 
-function status_of(array $k): string
+function badge_html(string $st): string
 {
-    if ($k['status'] !== 'active') {
-        return 'banned';
-    }
-    if ($k['hwid'] === '' || $k['hwid'] === null) {
-        return 'unbound';
-    }
-    if ((int)$k['expires'] > 0 && (int)$k['expires'] < time()) {
-        return 'expired';
-    }
-    return 'active';
+    $map = [
+        'active'  => ['bg-emerald-500/15', 'text-emerald-400', 'border-emerald-600/40'],
+        'unbound' => ['bg-sky-500/15',     'text-sky-400',     'border-sky-600/40'],
+        'expired' => ['bg-amber-500/15',   'text-amber-400',   'border-amber-600/40'],
+        'banned'  => ['bg-rose-500/15',    'text-rose-400',    'border-rose-600/40'],
+        'OK'      => ['bg-emerald-500/15', 'text-emerald-400', 'border-emerald-600/40'],
+        'FAIL'    => ['bg-rose-500/15',    'text-rose-400',    'border-rose-600/40'],
+    ];
+    $c = $map[$st] ?? ['bg-slate-500/15', 'text-slate-400', 'border-slate-600/40'];
+    return '<span class="inline-block px-2.5 py-0.5 rounded-full border text-[11px] font-semibold '
+         . $c[0] . ' ' . $c[1] . ' ' . $c[2] . '">' . e($st) . '</span>';
 }
 
 function render_dashboard(string $msg, string $err): void
 {
-    $name  = PANEL_NAME;
-    $csrf  = e(csrf_token());
-    $rows  = keys_load();
+    $name = PANEL_NAME;
+    $csrf = e(csrf_token());
+    $rows = keys_load();
+    $logs = logs_recent(60);
 
     $stats = ['total' => 0, 'active' => 0, 'unbound' => 0, 'expired' => 0, 'banned' => 0];
     foreach ($rows as $k) {
         $stats['total']++;
-        $stats[status_of($k)]++;
+        $stats[key_status($k)]++;
     }
 
-    $plansHtml = '';
-    foreach (PLANS as $pk => $p) {
-        $plansHtml .= '<option value="' . e($pk) . '">' . e($p[1]) . ($p[0] ? ' (' . sprintf('%02d', $p[0]) . 'd)' : ' (00d)') . '</option>';
-    }
+    head($name);
+    toast($msg, $err);
+    ?>
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <header class="flex items-center justify-between mb-8">
+    <div class="flex items-center gap-4">
+      <?php logo(58); ?>
+      <div>
+        <h1 class="text-xl font-bold gold-text tracking-wide"><?= e($name) ?></h1>
+        <p class="text-[11px] text-slate-500">keys file: <span class="text-slate-400"><?= e(key_file()) ?></span></p>
+      </div>
+    </div>
+    <form method="post"><input type="hidden" name="csrf" value="<?= $csrf ?>">
+      <button name="action" value="logout" class="btn text-xs px-4 py-2 rounded-lg border border-edge text-slate-400 hover:text-white hover:border-rose-500/60">Logout</button>
+    </form>
+  </header>
 
-    echo <<<HTML
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>$name</title><style>
-body{background:#0d1421;color:#dbe4f5;font-family:system-ui,Segoe UI,Arial,sans-serif;margin:0}
-.wrap{max-width:1050px;margin:0 auto;padding:24px}
-h1{color:#f2d15c;font-size:22px}h2{color:#9ea8bf;font-size:14px;text-transform:uppercase;letter-spacing:1px;margin:28px 0 10px}
-.card{background:#0f1a2e;border:1px solid #294a7a;border-radius:12px;padding:18px;margin-bottom:18px}
-.grid{display:flex;gap:12px;flex-wrap:wrap}
-.stat{flex:1;min-width:110px;background:#0a1220;border:1px solid #1c2f4d;border-radius:10px;padding:12px;text-align:center}
-.stat b{display:block;font-size:22px;color:#f2d15c}
-.stat span{font-size:12px;color:#9ea8bf}
-input,select{background:#0a1220;border:1px solid #294a7a;color:#fff;border-radius:8px;padding:9px 11px;font-size:14px}
-button{background:#4296fa;border:0;border-radius:8px;color:#fff;font-weight:600;padding:9px 16px;cursor:pointer}
-button:hover{background:#0f87fa}
-button.warn{background:#bf4040}button.gray{background:#37373c}button.ok{background:#1f7a3d}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{color:#9ea8bf;text-align:left;padding:8px 10px;border-bottom:1px solid #294a7a}
-td{padding:8px 10px;border-bottom:1px solid #16233c}
-td form{display:inline}
-.tag{padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700}
-.tag.active{background:#123a22;color:#5fe08a}.tag.unbound{background:#243a5c;color:#7fb2ff}
-.tag.expired{background:#3a2d10;color:#f2c15c}.tag.banned{background:#3a1420;color:#ff8a8a}
-.key{font-family:ui-monospace,Consolas,monospace;color:#fff}
-.msg{background:#12331e;border:1px solid #1f7a3d;color:#9fe8b8;border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:14px}
-.err{background:#3a1420;border:1px solid #bf4040;color:#ff9c9c;border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:14px}
-form.inline{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.small{color:#8a93a8;font-size:12px}
-</style></head><body><div class="wrap">
-<h1>$name</h1>
-HTML;
+  <section class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
+<?php foreach ($stats as $label => $val): ?>
+    <div class="card px-4 py-3 text-center">
+      <div class="text-2xl font-bold <?= $label === 'active' ? 'text-emerald-400' : 'gold-text' ?>"><?= (int)$val ?></div>
+      <div class="text-[11px] uppercase tracking-wider text-slate-500"><?= e($label) ?></div>
+    </div>
+<?php endforeach; ?>
+  </section>
 
-    if ($msg !== '') { echo '<div class="msg">' . $msg . '</div>'; }
-    if ($err !== '') { echo '<div class="err">' . e($err) . '</div>'; }
+  <section class="card p-5 mb-6">
+    <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-4">Generate keys</h2>
+    <form method="post" class="flex flex-wrap gap-3 items-center">
+      <input type="hidden" name="csrf" value="<?= $csrf ?>"><input type="hidden" name="action" value="generate">
+      <select name="plan" class="bg-night/80 border border-edge rounded-lg px-3 py-2.5 text-sm outline-none focus:border-gold">
+<?php foreach (PLANS as $pk => $p): ?>
+        <option value="<?= e($pk) ?>"><?= e($p[1]) ?><?= $p[0] ? ' — ' . sprintf('%02d', $p[0]) . 'd' : ' — lifetime' ?></option>
+<?php endforeach; ?>
+      </select>
+      <input type="number" name="qty" value="1" min="1" max="100" class="w-20 bg-night/80 border border-edge rounded-lg px-3 py-2.5 text-sm outline-none focus:border-gold">
+      <input type="number" name="custom_days" placeholder="custom days" min="1" max="999" class="w-32 bg-night/80 border border-edge rounded-lg px-3 py-2.5 text-sm outline-none focus:border-gold">
+      <input name="note" placeholder="note (optional)" class="flex-1 min-w-[160px] bg-night/80 border border-edge rounded-lg px-3 py-2.5 text-sm outline-none focus:border-gold">
+      <button class="btn rounded-lg px-5 py-2.5 font-semibold text-night bg-gradient-to-r from-gold to-goldd hover:brightness-110 text-sm">Create</button>
+    </form>
+    <form method="post" class="flex flex-wrap gap-3 items-center mt-3 pt-3 border-t border-edge/60">
+      <input type="hidden" name="csrf" value="<?= $csrf ?>"><input type="hidden" name="action" value="addkey">
+      <input name="newkey" placeholder="add an existing key manually (e.g. bum7md7-365-2nHVj)" class="flex-1 min-w-[220px] bg-night/80 border border-edge rounded-lg px-3 py-2.5 text-sm outline-none focus:border-gold">
+      <input type="number" name="newdays" placeholder="days (0=lifetime)" min="0" max="999" class="w-40 bg-night/80 border border-edge rounded-lg px-3 py-2.5 text-sm outline-none focus:border-gold">
+      <button class="btn rounded-lg px-5 py-2.5 font-semibold text-sm border border-gold/60 text-gold hover:bg-gold/10">Add key</button>
+    </form>
+  </section>
 
-    echo '<div class="grid">';
-    foreach ($stats as $label => $val) {
-        echo '<div class="stat"><b>' . $val . '</b><span>' . e($label) . '</span></div>';
-    }
-    echo '</div>';
+  <section class="card p-5 mb-6 overflow-x-auto">
+    <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-4">Keys</h2>
+    <table class="w-full text-sm">
+      <thead><tr class="text-left text-[11px] uppercase tracking-wider text-slate-500 border-b border-edge">
+        <th class="py-2 pr-3">Key</th><th class="py-2 pr-3">Days</th><th class="py-2 pr-3">Status</th>
+        <th class="py-2 pr-3">Device (HWID)</th><th class="py-2 pr-3">Activated</th><th class="py-2 pr-3">Expires</th>
+        <th class="py-2 pr-3">Note</th><th class="py-2">Actions</th></tr></thead>
+      <tbody>
+<?php foreach ($rows as $k): $st = key_status($k); ?>
+        <tr class="border-b border-edge/40">
+          <td class="py-2.5 pr-3 font-mono text-[13px] text-white whitespace-nowrap"><?= e((string)$k['key']) ?>
+            <button class="btn align-middle ml-1 text-[10px] px-1.5 py-0.5 rounded border border-edge text-slate-500 hover:text-gold hover:border-gold/50"
+              onclick="navigator.clipboard.writeText('<?= addslashes(e((string)$k['key'])) ?>');this.textContent='✓'" >copy</button></td>
+          <td class="py-2.5 pr-3 text-slate-400"><?= $k['days'] > 0 ? (int)$k['days'] . 'd' : '∞' ?></td>
+          <td class="py-2.5 pr-3"><?= badge_html($st) ?></td>
+          <td class="py-2.5 pr-3 font-mono text-[11px] text-slate-500"><?= e((string)$k['hwid']) !== '' ? e((string)$k['hwid']) : '—' ?></td>
+          <td class="py-2.5 pr-3 text-slate-400 text-xs"><?= fmt_date($k['activated']) ?></td>
+          <td class="py-2.5 pr-3 text-slate-400 text-xs"><?= (int)$k['expires'] > 0 ? fmt_date($k['expires']) : ($k['activated'] ? 'Never' : '—') ?></td>
+          <td class="py-2.5 pr-3 text-slate-500 text-xs"><?= e((string)$k['note']) ?></td>
+          <td class="py-2.5">
+            <form method="post" class="flex gap-1.5">
+              <input type="hidden" name="csrf" value="<?= $csrf ?>"><input type="hidden" name="k" value="<?= e((string)$k['key']) ?>">
+              <button name="action" value="reset"  title="unbind device" class="btn px-2.5 py-1 rounded-md text-[11px] border border-edge text-slate-300 hover:border-sky-500 hover:text-sky-400">Reset</button>
+              <button name="action" value="toggle" class="btn px-2.5 py-1 rounded-md text-[11px] border <?= $st === 'banned' ? 'border-emerald-600/50 text-emerald-400 hover:bg-emerald-500/10' : 'border-rose-600/50 text-rose-400 hover:bg-rose-500/10' ?>"><?= $st === 'banned' ? 'Enable' : 'Ban' ?></button>
+              <button name="action" value="delete" onclick="return confirm('Delete <?= addslashes(e((string)$k['key'])) ?>?')" class="btn px-2.5 py-1 rounded-md text-[11px] border border-edge text-slate-500 hover:border-rose-600 hover:text-rose-400">Del</button>
+            </form>
+          </td>
+        </tr>
+<?php endforeach; ?>
+<?php if (!$rows): ?>
+        <tr><td colspan="8" class="py-6 text-center text-slate-500 text-sm">No keys yet — create one above.</td></tr>
+<?php endif; ?>
+      </tbody>
+    </table>
+  </section>
 
-    // generator
-    echo '<h2>Generate keys</h2><div class="card"><form method="post" class="inline">';
-    echo '<input type="hidden" name="csrf" value="' . $csrf . '"><input type="hidden" name="action" value="generate">';
-    echo '<select name="plan">' . $plansHtml . '</select>';
-    echo '<input type="number" name="qty" value="1" min="1" max="100" style="width:80px" title="Quantity">';
-    echo '<input type="number" name="custom_days" placeholder="custom days" min="1" max="999" style="width:130px">';
-    echo '<input name="note" placeholder="note (optional)" style="flex:1;min-width:160px">';
-    echo '<button>Create</button></form>';
-    echo '<p class="small">Format identical to the vendor key <span class="key">bum7md7-12-gnMmz</span> '
-       . '(16 chars: ' . e(KEY_PREFIX) . '-NN-XXXXX, days zero-padded, lifetime = 00). '
-       . 'Keys are stored in <span class="key">main.txt</span> in this folder — you can also add keys there by hand.</p></div>';
+  <section class="card p-5 mb-6 overflow-x-auto">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-500">Recent /connect attempts</h2>
+      <form method="post"><input type="hidden" name="csrf" value="<?= $csrf ?>">
+        <button name="action" value="clearlogs" onclick="return confirm('Clear all logs?')" class="btn text-[11px] px-3 py-1.5 rounded-md border border-edge text-slate-400 hover:border-rose-600/60 hover:text-rose-400">Clear logs</button>
+      </form>
+    </div>
+    <table class="w-full text-sm">
+      <thead><tr class="text-left text-[11px] uppercase tracking-wider text-slate-500 border-b border-edge">
+        <th class="py-2 pr-3">Time (UTC)</th><th class="py-2 pr-3">IP</th><th class="py-2 pr-3">Key</th>
+        <th class="py-2 pr-3">Device</th><th class="py-2 pr-3">Result</th><th class="py-2">Reason</th></tr></thead>
+      <tbody>
+<?php foreach ($logs as $l): ?>
+        <tr class="border-b border-edge/40">
+          <td class="py-2 pr-3 text-slate-500 text-xs"><?= e(gmdate('m-d H:i:s', $l['ts'])) ?></td>
+          <td class="py-2 pr-3 text-slate-400 text-xs"><?= e($l['ip']) ?></td>
+          <td class="py-2 pr-3 font-mono text-[12px] text-slate-300"><?= e($l['key']) ?></td>
+          <td class="py-2 pr-3 font-mono text-[11px] text-slate-500"><?= e($l['serial']) ?></td>
+          <td class="py-2 pr-3"><?= badge_html($l['ok'] === 1 ? 'OK' : 'FAIL') ?></td>
+          <td class="py-2 text-slate-400 text-xs"><?= e($l['reason']) ?></td>
+        </tr>
+<?php endforeach; ?>
+<?php if (!$logs): ?>
+        <tr><td colspan="6" class="py-6 text-center text-slate-500 text-sm">No attempts yet.</td></tr>
+<?php endif; ?>
+      </tbody>
+    </table>
+  </section>
 
-    // manual add (for keys created by hand or imported)
-    echo '<div class="card"><form method="post" class="inline">';
-    echo '<input type="hidden" name="csrf" value="' . $csrf . '"><input type="hidden" name="action" value="addkey">';
-    echo '<input name="newkey" placeholder="add an existing key manually (e.g. bum7md7-365-2nHVj)" style="flex:1;min-width:220px">';
-    echo '<input type="number" name="newdays" placeholder="days (0=lifetime)" min="0" max="999" style="width:150px">';
-    echo '<button>Add</button></form></div>';
-
-
-    // keys table
-    echo '<h2>Keys</h2><div class="card" style="overflow-x:auto"><table><tr>';
-    echo '<th>Key</th><th>Days</th><th>Status</th><th>Device (HWID)</th><th>Activated</th><th>Expires</th><th>Note</th><th>Actions</th></tr>';
-    foreach ($rows as $k) {
-        $st = status_of($k);
-        echo '<tr><td class="key">' . e((string)$k['key']) .
-             ' <button class="gray" style="padding:2px 8px;font-size:11px" onclick="navigator.clipboard.writeText(\'' .
-             addslashes(e((string)$k['key'])) . '\');return false;">Copy</button></td>';
-        echo '<td>' . ($k['days'] > 0 ? (int)$k['days'] . 'd' : 'lifetime') . '</td>';
-        echo '<td><span class="tag ' . $st . '">' . $st . '</span></td>';
-        echo '<td class="key" style="font-size:11px">' . e((string)$k['hwid']) . '</td>';
-        echo '<td>' . ($k['activated'] ? e(gmdate('Y-m-d H:i', (int)$k['activated'])) : '—') . '</td>';
-        echo '<td>' . ($k['expires'] ? e(gmdate('Y-m-d H:i', (int)$k['expires'])) : ($k['activated'] ? 'Never' : '—')) . '</td>';
-        echo '<td>' . e((string)$k['note']) . '</td><td>';
-        echo '<form method="post"><input type="hidden" name="csrf" value="' . $csrf . '"><input type="hidden" name="k" value="' . e((string)$k['key']) . '">';
-        echo '<button class="gray" name="action" value="reset" title="unbind device">Reset</button> ';
-        echo '<button class="' . ($st === 'banned' ? 'ok' : 'warn') . '" name="action" value="toggle">' . ($st === 'banned' ? 'Enable' : 'Ban') . '</button> ';
-        echo '<button class="gray" name="action" value="delete" onclick="return confirm(\'Delete this key?\')">Del</button></form></td></tr>';
-    }
-    if (!$rows) {
-        echo '<tr><td colspan="8" class="small">No keys yet — generate the first one above.</td></tr>';
-    }
-    echo '</table></div>';
-
-    // logs
-    echo '<h2>Recent /connect attempts</h2><div class="card" style="overflow-x:auto"><table><tr>';
-    echo '<th>Time (UTC)</th><th>IP</th><th>Key</th><th>Serial</th><th>Result</th><th>Reason</th></tr>';
-    foreach (logs_recent(50) as $l) {
-        echo '<tr><td>' . e(gmdate('m-d H:i:s', $l['ts'])) . '</td><td>' . e($l['ip']) . '</td>';
-        echo '<td class="key">' . e($l['key']) . '</td><td class="key" style="font-size:11px">' . e($l['serial']) . '</td>';
-        echo '<td>' . ($l['ok'] === 1 ? '<span class="tag active">OK</span>' : '<span class="tag banned">FAIL</span>') . '</td>';
-        echo '<td>' . e($l['reason']) . '</td></tr>';
-    }
-    if (!$rows) { /* keep php quiet */ }
-    echo '</table></div>';
-
-    echo '<p class="small">Keys file on the server: <span class="key">' . e(key_file()) . '</span> (web-blocked by .htaccess)<br>';
-    echo 'Validator endpoint for the app: <span class="key">http://domi74.page.gd/k.php</span> (POST) · ';
-    echo '<form method="post" style="display:inline"><input type="hidden" name="csrf" value="' . $csrf . '">';
-    echo '<button class="gray" name="action" value="logout">Logout</button></form></p>';
-    echo '</div></body></html>';
+  <p class="text-center text-[11px] text-slate-600 pb-6">app endpoint: <span class="font-mono text-slate-500">http://domi74.page.gd/k.php</span> · <?= e(PANEL_NAME) ?></p>
+</div>
+</body></html>
+<?php
 }
