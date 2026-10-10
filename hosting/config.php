@@ -7,10 +7,10 @@
 define('PANEL_NAME', '8 Ball Pool Panel');
 
 // ---------- Key generation ----------
-// EXACTLY matches the vendor key format:  bum7md7-12-gnMmz
-//   = 7-char prefix + '-' + 2-digit days + '-' + 5 random chars  (16 chars total)
-// Lifetime keys use 00 in the middle:  bum7md7-00-Qw7Zn
-define('KEY_PREFIX', 'bum7md7');
+// Same shape as the vendor key (bum7md7-12-gnMmz = 16 chars):
+//   7-char prefix + '-' + 2-digit days + '-' + 5 random chars
+// Lifetime keys use 00 in the middle:  free4us-00-Qw7Zn
+define('KEY_PREFIX', 'free4us');
 define('KEY_SUFFIX_LEN', 5);
 
 // ---------- /connect validator ----------

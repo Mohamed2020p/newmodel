@@ -35,7 +35,7 @@ bum7md7-07-mR4tY|7|banned||||        <- banned, cannot login
 
 1. Upload the `hosting/` folder contents to your web root (or a subfolder).
 2. Edit `config.php`: set `ADMIN_PASS_PLAIN` (or a `password_hash()`), keep
-   `KEY_PREFIX` = `bum7md7`, keep `GAMES_ALLOWED = ['PUBG']`.
+   `KEY_PREFIX` = `free4us`, keep `GAMES_ALLOWED = ['PUBG']`.
 3. Open `https://your-domain/` → login → **Generate keys**.
 4. Point the app at `https://your-domain/connect` (see "Pointing the app" below).
 
@@ -111,7 +111,7 @@ Hard rules (the app's parser checks these — from the disassembly):
 
 ### 5. Key format — identical to the vendor
 
-Vendor example: **`bum7md7-12-gnMmz`** = **16 characters**:
+This panel's keys: **`free4us-30-Xk2P9`** (16 chars, same shape as the vendor's `bum7md7-12-gnMmz`):
 
 ```
 b u m 7 m d 7  -  1 2  -  g n M m z

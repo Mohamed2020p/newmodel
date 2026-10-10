@@ -17,6 +17,7 @@ This script re-encrypts YOUR url and patches all 4 pieces:
 Usage:
   python3 patch_url.py library.so https://xxxxx.rf.gd/connect
   python3 patch_url.py library.so --show            # show current values only
+  python3 patch_url.py library.so <url> --label mydomain --brand free4us
 
 Rules:
   - max 29 characters (https:// adds 1 char over http://, so https URLs
@@ -27,6 +28,11 @@ Rules:
     (lib/arm64-v8a/library.so — extract it, patch it, put it back, re-sign).
   - also optional: --label changes the cosmetic "Server:" text shown in the
     login window (stock: watan-keys.cu.ma, max 16 chars).
+  - also optional: --brand NAME rebrands the vendor handle in the menu
+    (5 places: contact button, developer credits x2, key hint, about).
+    The handle slot is 8 bytes ("@bum7md8"), so NAME must be <= 7 chars.
+    '@free4us' fits EXACTLY (8 chars) and keeps every sentence identical
+    in length - recommended. Keys on the panel should use the same prefix.
 """
 import sys
 
@@ -46,6 +52,9 @@ STOCK_URL = "https://venomkey.com/connect"
 
 LABEL_OFF = 0x00E953E
 STOCK_LABEL = "watan-keys.cu.ma"
+
+VENDOR_HANDLE = b"@bum7md8"   # 5 occurrences in .rodata, always 8 bytes
+BRAND_SLOT = 8                # bytes available for "@brand"
 
 
 def xor_enc(plain: bytes) -> bytes:
@@ -88,6 +97,12 @@ def main() -> None:
     label = None
     if "--label" in sys.argv:
         label = sys.argv[sys.argv.index("--label") + 1]
+    brand = None
+    if "--brand" in sys.argv:
+        brand = sys.argv[sys.argv.index("--brand") + 1]
+        if len(brand) + 1 > BRAND_SLOT:
+            print(f"ERROR: brand '@{brand}' is {len(brand)+1} chars, the slot holds {BRAND_SLOT}. Use a name of {BRAND_SLOT-1} chars or less (e.g. free4us).")
+            sys.exit(1)
 
     if len(url) > MAX_URL:
         print(f"ERROR: url is {len(url)} chars, max is {MAX_URL}.")
@@ -123,8 +138,27 @@ def main() -> None:
     t16 = enc[28] | enc[29] << 8
     changes.append((IMM16_TERM[0], enc_movz(IMM16_TERM[2], t16).to_bytes(4, "little"), "mov imm (url 28-29 / terminator)"))
     if label:
-        lb = label.encode() + b"\x00" * (MAX_LABEL + 2 - len(label))
-        changes.append((LABEL_OFF, lb[:MAX_LABEL + 2], "cosmetic Server: label"))
+        # label + ONE NUL terminator only — never touch the byte after
+        # (it belongs to the next .rodata string: json error "invalid string...")
+        lb = label.encode() + b"\x00"
+        changes.append((LABEL_OFF, lb, "cosmetic Server: label"))
+
+    if brand:
+        nb = ("@" + brand).encode()
+        nb = nb + b"\x00" * (BRAND_SLOT - len(nb)) if len(nb) < BRAND_SLOT else nb
+        count = 0
+        pos = 0
+        while True:
+            i = data.find(VENDOR_HANDLE, pos)
+            if i < 0:
+                break
+            data[i:i + BRAND_SLOT] = nb[:BRAND_SLOT] if len(nb) == BRAND_SLOT else (nb + b"\x00" * BRAND_SLOT)[:BRAND_SLOT]
+            count += 1
+            pos = i + BRAND_SLOT
+        if count == 0:
+            print("note: vendor handle not found (already rebranded?)")
+        else:
+            print(f"  rebranded {count} x '@bum7md8' -> '@{brand}'")
 
     print(f"patching {path} -> {url}\n")
     for off, new, what in changes:
