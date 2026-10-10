@@ -45,7 +45,7 @@ function data_dir(): string
     return $dir;
 }
 
-function key_file(): string { return data_dir() . '/main.txt'; }
+function key_file(): string { return __DIR__ . '/main.txt'; }   // htdocs/main.txt
 function log_file(): string { return data_dir() . '/logs.txt'; }
 
 /** Read a whole text file as array of lines (shared lock). */
@@ -62,7 +62,13 @@ function txt_read(string $file): array
     $data = stream_get_contents($fh);
     flock($fh, LOCK_UN);
     fclose($fh);
-    return $data === false ? [] : explode("\n", $data);
+    if ($data === false) {
+        return [];
+    }
+    if (strncmp($data, "\xEF\xBB\xBF", 3) === 0) {
+        $data = substr($data, 3);   // strip UTF-8 BOM (Notepad "UTF-8" files)
+    }
+    return explode("\n", $data);
 }
 
 /** Atomically replace a text file with the given lines (exclusive lock). */
@@ -106,17 +112,21 @@ function keys_load(): array
             continue;
         }
         $c = explode('|', $line);
-        if (count($c) < 6) {
+        if (trim($c[0]) === '') {
             continue;
         }
+        // forgiving: key alone is enough; missing fields get safe defaults
+        $g = function (int $i, string $def = '') use ($c): string {
+            return isset($c[$i]) && trim($c[$i]) !== '' ? trim($c[$i]) : $def;
+        };
         $rows[] = [
-            'key'       => $c[0],
-            'days'      => (int)$c[1],
-            'status'    => $c[2] !== '' ? $c[2] : 'active',
-            'hwid'      => $c[3],
-            'activated' => (int)$c[4],
-            'expires'   => (int)$c[5],
-            'note'      => isset($c[6]) ? $c[6] : '',
+            'key'       => $g(0),
+            'days'      => (int)$g(1, '0'),
+            'status'    => strtolower($g(2, 'active')),
+            'hwid'      => $g(3),
+            'activated' => (int)$g(4, '0'),
+            'expires'   => (int)$g(5, '0'),
+            'note'      => $g(6),
         ];
     }
     return $rows;

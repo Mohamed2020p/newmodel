@@ -4,8 +4,10 @@ Self-hosted replacement for the vendor's key server. Written from the reverse-en
 contract of the mod (`lib/arm64-v8a/library.so`, "MAJISK v2.0 — Gold Edition") so the app
 accepts it **without any modification of the request/response logic**.
 
-**No database.** Keys live in ONE plain text file: `data/main.txt` (created automatically).
-You can hand-edit it, back it up, or generate keys by writing lines into it yourself.
+**No database.** Keys live in ONE plain text file: `main.txt` **in the same folder as the
+PHP files** (`htdocs/main.txt`, created automatically). You can hand-edit it, back it up,
+or add keys from the admin panel ("Add" form). Keep the shipped `.htaccess` next to it —
+it blocks browsers from reading `main.txt`.
 
 ## Files
 
@@ -107,7 +109,7 @@ Hard rules (the app's parser checks these — from the disassembly):
 - Mirrors the app's own error strings: `Key is empty`, `Failed to get Android ID`,
   `Invalid key`, `Key is banned`, `Key has expired`.
 - Rate limit per IP → `Too many attempts, wait a minute`.
-- Every attempt logged to `data/logs.txt` and shown in the admin.
+- Every attempt logged to `data/logs.txt` (web-blocked) and shown in the admin.
 
 ### 5. Key format — identical to the vendor
 

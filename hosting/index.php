@@ -60,6 +60,23 @@ if ($action === 'generate') {
     } catch (Throwable $ex) {
         $err = 'Generation failed: ' . e($ex->getMessage());
     }
+} elseif ($action === 'addkey') {
+    check_csrf();
+    $k = normalize_key(trim((string)($_POST['newkey'] ?? '')));
+    $d = max(0, min(999, (int)($_POST['newdays'] ?? 0)));
+    if ($k === '') {
+        $err = 'Type the key first';
+    } else {
+        $rows = keys_load();
+        if (keys_find($rows, $k) >= 0) {
+            $err = 'That key already exists';
+        } else {
+            $rows[] = ['key' => $k, 'days' => $d, 'status' => 'active',
+                       'hwid' => '', 'activated' => 0, 'expires' => 0, 'note' => 'manual'];
+            keys_save($rows);
+            $msg = 'Key added: <span class="key">' . e($k) . '</span> (' . ($d > 0 ? $d . ' days' : 'lifetime') . ')';
+        }
+    }
 } elseif ($action === 'reset') {
     check_csrf();
     $k = (string)($_POST['k'] ?? '');
@@ -205,14 +222,24 @@ HTML;
     echo '<button>Create</button></form>';
     echo '<p class="small">Format identical to the vendor key <span class="key">bum7md7-12-gnMmz</span> '
        . '(16 chars: ' . e(KEY_PREFIX) . '-NN-XXXXX, days zero-padded, lifetime = 00). '
-       . 'Keys are stored in <span class="key">data/main.txt</span> — you can also add keys there by hand.</p></div>';
+       . 'Keys are stored in <span class="key">main.txt</span> in this folder — you can also add keys there by hand.</p></div>';
+
+    // manual add (for keys created by hand or imported)
+    echo '<div class="card"><form method="post" class="inline">';
+    echo '<input type="hidden" name="csrf" value="' . $csrf . '"><input type="hidden" name="action" value="addkey">';
+    echo '<input name="newkey" placeholder="add an existing key manually (e.g. bum7md7-365-2nHVj)" style="flex:1;min-width:220px">';
+    echo '<input type="number" name="newdays" placeholder="days (0=lifetime)" min="0" max="999" style="width:150px">';
+    echo '<button>Add</button></form></div>';
+
 
     // keys table
     echo '<h2>Keys</h2><div class="card" style="overflow-x:auto"><table><tr>';
     echo '<th>Key</th><th>Days</th><th>Status</th><th>Device (HWID)</th><th>Activated</th><th>Expires</th><th>Note</th><th>Actions</th></tr>';
     foreach ($rows as $k) {
         $st = status_of($k);
-        echo '<tr><td class="key">' . e((string)$k['key']) . '</td>';
+        echo '<tr><td class="key">' . e((string)$k['key']) .
+             ' <button class="gray" style="padding:2px 8px;font-size:11px" onclick="navigator.clipboard.writeText(\'' .
+             addslashes(e((string)$k['key'])) . '\');return false;">Copy</button></td>';
         echo '<td>' . ($k['days'] > 0 ? (int)$k['days'] . 'd' : 'lifetime') . '</td>';
         echo '<td><span class="tag ' . $st . '">' . $st . '</span></td>';
         echo '<td class="key" style="font-size:11px">' . e((string)$k['hwid']) . '</td>';
@@ -241,7 +268,8 @@ HTML;
     if (!$rows) { /* keep php quiet */ }
     echo '</table></div>';
 
-    echo '<p class="small">Validator endpoint for the app: <span class="key">https://your-domain/connect</span> (POST) · ';
+    echo '<p class="small">Keys file on the server: <span class="key">' . e(key_file()) . '</span> (web-blocked by .htaccess)<br>';
+    echo 'Validator endpoint for the app: <span class="key">http://domi74.page.gd/k.php</span> (POST) · ';
     echo '<form method="post" style="display:inline"><input type="hidden" name="csrf" value="' . $csrf . '">';
     echo '<button class="gray" name="action" value="logout">Logout</button></form></p>';
     echo '</div></body></html>';

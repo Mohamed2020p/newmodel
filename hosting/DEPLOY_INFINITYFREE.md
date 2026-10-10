@@ -68,6 +68,6 @@ an API-friendly free host (e.g. a Cloudflare Worker with KV storage — I can co
 panel to a Worker if needed).
 
 ## Notes
-- `data/main.txt` is your keys file — back it up now and then (File Manager → download).
+- Your keys file is `htdocs/main.txt` — back it up now and then (File Manager → download).
 - Every login attempt is in `data/logs.txt` and visible in the admin.
 - The free SSL cert (if issued) is fine; the app ignores certificates anyway.
