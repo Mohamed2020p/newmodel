@@ -1,0 +1,1385 @@
+# Mod-menu string cluster decoded from lib/arm64-v8a/library.so (.rodata)
+# library "MAJISK v2.0 - Gold Edition" / "Premium 8 Ball Pool Assistant"
+# 1381 strings, sorted by .rodata address
+
+0x0e902c  libpath.empty()
+0x0e903c  (Ljava/lang/String;)Ljava/lang/Class;
+0x0e9062  (Ljava/lang/String;)Ljava/lang/Object;
+0x0e9093  English
+0x0e909b  invalid filter
+0x0e90aa  bad DQT type
+0x0e90b7  bad SOF len
+0x0e90c3  bad DNL len
+0x0e90cf  <discarded>
+0x0e90db  General
+0x0e913e  dlfcn
+0x0e9144  no memory for %s
+0x0e9155  %s: no memory for .dynstr
+0x0e916f  ScrollbarGrabHovered
+0x0e9184  ModalWindowDimBg
+0x0e9195  Recovered from missing PopFocusScope() in '%s'
+0x0e91c4  ContentRegionRect
+0x0e91d6  DrawLists
+0x0e91e0  Popups (%d)
+0x0e91ef  Width: %.1f (MinX: %.1f, MaxX: %.1f)
+0x0e9216  Modal
+0x0e921d  %s (%d)
+0x0e9225  ProggyClean.ttf, %dpx
+0x0e923b  Size column to fit###SizeOne
+0x0e9258  --------------------------------
+0x0e928a  [%s][0x%08X,%d]
+0x0e929b  .rela.plt
+0x0e92a5  bias_addr == 0
+0x0e92b5  found %s at symidx: %u (GNU_HASH DEF)
+0x0e92dc  %.0Lf
+0x0e9325  One of *?+{ was not preceded by a valid regular expression.
+0x0e9361  equals-sign
+0x0e936d  quotation-mark
+0x0e937c  space
+0x0e9382  tilde
+0x0e939c  covariant return thunk to
+0x0e93ba  operator^=
+0x0e93c5  operator<=
+0x0e93e9  unsupported restore location for float register
+0x0e9423  bAutoPlay
+0x0e942d  fESP_HiddenAlpha
+0x0e943e  fAIM_MaxSnapPerFrame
+0x0e9453  fTableBottom
+0x0e9460  TRUE: %i
+0x0e9469  loadClass
+0x0e9473  Failed to find class!
+0x0e9489  clipboard
+0x0e9493  AutoPlay
+0x0e94a0  "status": true
+0x0e94af  EXPIRY TIME:
+0x0e94bc  Approve the shot?
+0x0e94ce  /system/fonts/NotoNaskhArabicUI-Regular.ttf
+0x0e94fa  bad code lengths
+0x0e950b  bad SOS component count
+0x0e9527  number
+0x0e953e  watan-keys.cu.ma
+0x0e9607  value
+0x0e9611  SliderGrabActive
+0x0e9622  HeaderHovered
+0x0e9630  TextSelectedBg
+0x0e963f  NavWindowingHighlight
+0x0e967c  %d active windows (%d visible)
+0x0e969b  Item Picker..
+0x0e96a9  DrawLists (%d)
+0x0e96b8  Clipboard
+0x0e96c2  Font: "%s"
+0x0e96cd  %.2f px, %d glyphs, %d file(s)
+0x0e96ec  The quick brown fox jumps over the lazy dog
+0x0e9718  U+%04X..U+%04X (%d %s)
+0x0e972f  %s'%s'
+0x0e9736  ##ContextMenu
+0x0e9744  Size all columns to fit###SizeAll
+0x0e9766  (auto)
+0x0e976e  #SCROLLX
+0x0e977b  ##hsv
+0x0e9781  Color
+0x0e9787  %d: %8.4g
+0x0e979b  FixedFit
+0x0e97a4  bloom == NULL
+0x0e97b3  %a %b %d %H:%M:%S %Y
+0x0e97c8  time_put_byname failed to construct for
+0x0e97f1  The expression contained mismatched ( and ).
+0x0e9820  alert
+0x0e9826  nine
+0x0e982b  decltype(
+0x0e9838  typeid (
+0x0e9841  {...}
+0x0e9847  operator>>=
+0x0e9853  operator<=>
+0x0e985f  long
+0x0e9864  char32_t
+0x0e98f3  cESP_HealthHidden
+0x0e9905  cESP_Distance
+0x0e9922  fSpeed
+0x0e9929  VOID: %i
+0x0e9934  currentActivityThread
+0x0e994a  Landroid/app/ActivityThread;
+0x0e9967  getContentResolver
+0x0e997a  AutoPlay SLOW: ball=%d pocket=%d angle=%.3f power=%.1f
+0x0e99b1  Auto-accept in
+0x0e99c0  ESP::STATES
+0x0e99cc  bad filter method
+0x0e99de  FORMAT=32-bit_rle_rgbe
+0x0e99f8  \u%04x
+0x0e99ff  Notifications
+0x0e9a0d  Delay between shots
+0x0e9ae6  object key
+0x0e9af4  mmap() failed for %s
+0x0e9b09  /system/lib64/
+0x0e9b18  /odm/lib64/
+0x0e9b24  PlotLinesHovered
+0x0e9b35  ##Menu_%02d
+0x0e9b41  Fonts
+0x0e9b47  SettingsTables
+0x0e9b56  Internal state
+0x0e9b65  Warning: owning Window is inactive. This DrawList is not being rendered!
+0x0e9bae  NoMouseInputs
+0x0e9bbc  %.*s
+0x0e9bc1  (Des)
+0x0e9bcc  %.0f deg
+0x0e9bd5  picker
+0x0e9bdc  Texture
+0x0e9be4  0x%08X,%d
+0x0e9bee  do not register hook after refresh(): %s, %s
+0x0e9c1b  ELF_HASH
+0x0e9c24  collate_byname<char>::collate_byname failed to construct for
+0x0e9c71  There was insufficient memory to determine whether the regular expression could match the specified character sequence.
+0x0e9ceb  percent-sign
+0x0e9cf8  zero
+0x0e9cfd  stoll
+0x0e9d03  thread::detach failed
+0x0e9d19  The state of the promise has already been set.
+0x0e9d4a  throw
+0x0e9d50  wchar_t
+0x0e9d58  'lambda
+0x0e9d60  operator~
+0x0e9d6a  operator""
+0x0e9d88  decltype(auto)
+0x0e9d97  Deleted virtual function called!
+0x0e9dc7  LOGS: %i
+0x0e9dd0  Failed to get JNIEnv
+0x0e9de5  getSystemService
+0x0e9dfa  null
+0x0e9dff  Reject
+0x0e9e06  AUTO::QUEUE
+0x0e9e12  unknown image type
+0x0e9e25  bad masks
+0x0e9e3c  wrong version
+0x0e9e4a  bad APP len
+0x0e9e56  unknown marker
+0x0e9e65  #?RGBE
+0x0e9ebf  %s loaded in Android at 0x%08lx
+0x0e9edf  Window
+0x0e9f02  ChildWindow
+0x0e9f20  %s: '%s' %d vtx, %d indices, %d cmds
+0x0e9f45  ... }
+0x0e9f4c  Columns sets (%d)
+0x0e9f5e  Size all columns to default###SizeAll
+0x0e9f84  (Asc)
+0x0e9f8d  ##ComboPopup
+0x0e9f9a  %08X
+0x0e9f9f  B:%0.3f
+0x0e9fa7  context
+0x0e9faf  ##picker
+0x0e9fb8  alpha
+0x0e9fbe  Size=%i,%i
+0x0e9fc9  [%s][%s]
+0x0e9fd6  mprotect failed with errno = %d, p = %p, size = %zu
+0x0ea00a  elf init check failed. %s
+0x0ea024  symtab == NULL
+0x0ea034  found %s at symidx: %u (GNU_HASH UNDEF)
+0x0ea05d  replace function failed: %s at %s
+0x0ea080  restore addr prot failed. ret: %d
+0x0ea0a6  condition_variable::timed wait: mutex not locked
+0x0ea0d7  greater-than-sign
+0x0ea0eb  terminating with %s exception of type %s
+0x0ea114  const_cast
+0x0ea134  operator delete
+0x0ea144  operator>=
+0x0ea15d  unsupported arm64 register
+0x0ea1b7  getSLEB128
+0x0ea1c2  getSavedRegister
+0x0ea1db  SignalTraceHandler %d
+0x0ea1f1  cESP_Line
+0x0ea1fb  fAIM_NoRecoilMultiplier
+0x0ea213  fTableRight
+0x0ea21f  SOLID
+0x0ea225  AutoPlay AI: PICK rank=%d ball=%d pocket=%d score=%.1f cut=%.1f
+0x0ea266  power=%.1f
+0x0ea272  Login successful.
+0x0ea284  fShotPower
+0x0ea2e3  too large
+0x0ea2ed  bad DQT table
+0x0ea2fb  #?RADIANCE
+0x0ea307  boolean
+0x0ea3e7  Alpha
+0x0ea3fb  WindowBg
+0x0ea404  TitleBg
+0x0ea40c  Separator
+0x0ea416  BackgroundClipRect
+0x0ea429  ##show_table_rects_type
+0x0ea441  Popups
+0x0ea448  HoveredWindow->Root: '%s'
+0x0ea467  Storage
+0x0ea46f  get addr prot failed. ret: %d
+0x0ea48d  Tuesday
+0x0ea499  March
+0x0ea4a5  seven
+0x0ea4ab  solidus
+0x0ea4b3  typeinfo name for
+0x0ea4c6  operator new
+0x0ea4d3  ) ? (
+0x0ea4d9  [enable_if:
+0x0ea4f5  objc_object
+0x0ea520  getEncodedP
+0x0ea55c  fESP_SkeletonThickness
+0x0ea573  I1000: %i
+0x0ea57d  Failed to get method name
+0x0ea597  ()Landroid/app/Application;
+0x0ea5b7  Device HWID:
+0x0ea5c8  unknown code
+0x0ea628  No new notifications
+0x0ea63d  Premium 8 Ball Pool Assistant
+0x0ea6ed  unexpected
+0x0ea6fb  Settings unpacked data (.ini): %d bytes
+0x0ea723  MovingWindow: '%s'
+0x0ea736  NavInputSource: %s
+0x0ea74d  %s: %.3f
+0x0ea756  uniform mat4 ProjMtx;
+0x0ea76c  in vec2 Position;
+0x0ea77e  in vec2 UV;
+0x0ea78a  in vec4 Color;
+0x0ea799  out vec2 Frag_UV;
+0x0ea7ab  out vec4 Frag_Color;
+0x0ea7c0  void main()
+0x0ea7ce  Frag_UV = UV;
+0x0ea7e0  Frag_Color = Color;
+0x0ea7f8  gl_Position = ProjMtx * vec4(Position.xy,0,1);
+0x0ea82e  #ifdef GL_ES
+0x0ea83b  precision mediump float;
+0x0ea858  #endif
+0x0ea85f  uniform sampler2D Texture;
+0x0ea87a  varying vec2 Frag_UV;
+0x0ea890  varying vec4 Frag_Color;
+0x0ea8b7  gl_FragColor = Frag_Color * texture2D(Texture, Frag_UV.st);
+0x0ea8fa  HoveredId: 0x%08X
+0x0ea90c  Press ESC to abort picking.
+0x0ea928  RefScale=%g
+0x0ea93b  0123456789
+0x0ea946  numpunct_byname<char>::numpunct_byname failed to construct for
+0x0ea986  recursive_mutex lock failed
+0x0ea9a4  left-square-bracket
+0x0ea9b8  newline
+0x0ea9c0  right-square-bracket
+0x0ea9d9  The associated promise has been destructed prior to the associated state becoming ready.
+0x0eaa44  typeinfo for
+0x0eaa52  reference temporary for
+0x0eaa6b  unsigned char
+0x0eaa79  operator&=
+0x0eaa84  operator*=
+0x0eaad6  getSavedFloatRegister
+0x0eaaf4  libwolf.so
+0x0eaaff  FMAX: %i
+0x0eab08  Failed to attach thread to JVM
+0x0eab27  bad interlace method
+0x0eab3c  wrong color format
+0x0eab53  bad dist
+0x0eab62  Auto Play
+0x0eab6c  Draw Shot State
+0x0eab7c  syntax error
+0x0eab8a  ; last read: '
+0x0eab99  %s: ok, dynsym = %p, dynstr = %p
+0x0eabba  ResizeGripHovered
+0x0eabcc  Debug##Default
+0x0eabdb  Recovered from missing EndDisabled() in '%s'
+0x0eac08  ColumnsRect
+0x0eac2c  Table 0x%08X (%d columns, in '%s')
+0x0eac9e  Popup
+0x0eaca7  ChildWindows
+0x0eacb4  H:%3d
+0x0eacba  Copy
+0x0eacbf  ##selectable
+0x0eb831  FixedSame
+0x0eb83f  found %s at %s offset: %p
+0x0eb85c  apostrophe
+0x0eb867  asterisk
+0x0eb874  Unknown error %d
+0x0eb8b9  operator delete[]
+0x0eb8e6  cESP_LineBossHidden
+0x0eb8fa  bESP_DrawPocketsShotState
+0x0eb914  iAIM_WindowY
+0x0eb921  DMAX: %i
+0x0eb92a  Found matching path but invalid ELF header at %p (bytes: %02x %02x %02x %02x)
+0x0eb978  ()Ljava/lang/String;
+0x0eb98d  getApplication
+0x0eb99c  GetAndroidID: %s
+0x0eb9ad  SEARCH
+0x0eb9b4  AutoPlay AI: %zu candidates, top=ball@%d pocket=%d score=%.1f cut=%.1f
+0x0eba25  Accuracy
+0x0eba2e  /system/fonts/Roboto-Regular.ttf
+0x0eba4f  illegal code in raster
+0x0eba66  bad compression
+0x0eba76  unsupported data layout
+0x0eba8e  "bytes": [
+0x0eba99  {"bytes":[
+0x0ebaa4  false
+0x0ebafe  Auto Play Speed
+0x0ebb1b  invalid comment; expecting '/' or '*' after '/'
+0x0ebb99  '[', '{', or a literal
+0x0ebbb0  %s: duplicate DYNSYM sections
+0x0ebbce  TextDisabled
+0x0ebbdb  SeparatorActive
+0x0ebbeb  #MOVE
+0x0ebbf1  #SourceExtern
+0x0ebbff  DrawCmd:%5d tris, Tex 0x%p, ClipRect (%4.0f,%4.0f)-(%4.0f,%4.0f)
+0x0ebc40  Fallback character: '%s' (U+%04X)
+0x0ebc62  OuterRect: Pos: (%.1f,%.1f) Size: (%.1f,%.1f) Sizing: '%s'
+0x0ebc9f  %02X%02X%02X
+0x0ebcb9  in vec2 Frag_UV;
+0x0ebcca  in vec4 Frag_Color;
+0x0ebcf9  layout (location = 0) out vec4 Out_Color;
+0x0ebd31  Out_Color = Frag_Color * texture(Texture, Frag_UV.st);
+0x0ebd8c  money_get error
+0x0ebd9c  The expression contained mismatched [ and ].
+0x0ebdcd  comma
+0x0ebdd5  auto
+0x0ebdda  unsigned short
+0x0ebde9  %LaL
+0x0ebdee  operator/
+0x0ebdf8  operator|
+0x0ebe58  FDE has zero length
+0x0ebe6c  FDE is really a CIE
+0x0ebe80  exynos9810
+0x0ebe8b  cESP_LineBots
+0x0ebe99  cESP_Skeleton
+0x0ebea7  cESP_DistanceHidden
+0x0ebebb  fTableLeft
+0x0ebec6  iNotchPadding
+0x0ebed4  toString
+0x0ebedd  ()Landroid/content/ContentResolver;
+0x0ebf01  AutoAim Enhanced
+0x0ebf16  HWID:
+0x0ebf1e  Accept
+0x0ebf25  bad IHDR len
+0x0ebf32  Adobe
+0x0ec00a  Server:
+0x0ec013  Contact @bum7md8 on Telegram
+0x0ec074  <uninitialized>
+0x0ec084  type must be string, but is
+0x0ec0a1  ThemeIndex
+0x0ec0ac  /apex/com.android.art/lib64/
+0x0ec0d3  CheckMark
+0x0ec0dd  PlotHistogramHovered
+0x0ec0f2  Recovered from missing EndTabBar() in '%s'
+0x0ec11d  Application average %.3f ms/frame (%.1f FPS)
+0x0ec14a  Content
+0x0ec152  ##show_windows_rect_type
+0x0ec182  NULL
+0x0ec187  Texture Area: about %d px ~%dx%d px
+0x0ec1af  #%02X%02X%02X%02X
+0x0ec1c1  R:%d, G:%d, B:%d, A:%d
+0x0ec1d8  (%.3f, %.3f, %.3f, %.3f)
+0x0ec231  out vec4 Out_Color;
+0x0ec291  #COLLAPSE
+0x0ec29b  Collapsed=%d
+0x0ec2a9  %lld
+0x0ec2ae  %.3f
+0x0ec2b3  not inited
+0x0ec2bf  %m/%d/%y
+0x0ec2d4  The expression contained an invalid escaped character, or a trailing escape.
+0x0ec321  form-feed
+0x0ec32b  less-than-sign
+0x0ec33e  vertical-line
+0x0ec34c  The future has already been retrieved from the promise or packaged_task.
+0x0ec399  delete
+0x0ec3a0  operator&
+0x0ec3aa  operator%
+0x0ec3b4  operator>>
+0x0ec3bf  ) : (
+0x0ec3c5  [abi:
+0x0ec441  truncated sleb128 expression
+0x0ec461  log_stacktrace: %s
+0x0ec474  bESP_DrawPredictionPos
+0x0ec49a  SLEEP: %i
+0x0ec4a4  F100: %i
+0x0ec4ad  /proc/self/cmdline
+0x0ec4c0  %s(0x%lx)
+0x0ec4ca  AutoPlay AI: top %d sims failed -> SLOW
+0x0ec4f2  PopMenuState %d
+0x0ec529  /system/fonts/NotoNaskhArabic-Regular.ttf
+0x0ec553  bad req_comp
+0x0ec560  too many codes
+0x0ec56f  bad file
+0x0ec578  no header height
+0x0ec589  invalid decoded scanline length
+0x0ec5c2  Auto Play Style
+0x0ec68c  ; expected
+0x0ec69c  lseek() failed for %s
+0x0ec6b2  FrameBgActive
+0x0ec6c0  TableRowBg
+0x0ec6cb  Unknown
+0x0ec6d3  Recovered from missing TreePop() in '%s'
+0x0ec6fc  Log To Clipboard
+0x0ec70d  ColumnsContentHeadersIdeal
+0x0ec728  Tables (%d)
+0x0ec734  Save to memory
+0x0ec743  Keyboard
+0x0ec74c  Atlas texture (%dx%d pixels)
+0x0ec769  Ellipsis character: '%s' (U+%04X)
+0x0ec78b  Codepoint: U+%04X
+0x0ec79d  %s: %d entries, %d bytes
+0x0ec7b6  *Inactive*
+0x0ec7c2  viewport0
+0x0ec7cc  IsPlatformMonitor
+0x0ec7df  Note: some memory buffers have been compacted/freed.
+0x0ec814  Scroll: (%.2f/%.2f,%.2f/%.2f) Scrollbar:%s%s
+0x0ec841  A:%0.3f
+0x0ec849  ##previewing_picker
+0x0ec85d  %s: %s
+0x0ec864  failed to allocate trampoline!
+0x0ec883  .rela.dyn
+0x0ec88d  bucket == NULL
+0x0ec89d  clock_gettime(CLOCK_REALTIME) failed
+0x0ec8c4  collate_byname<wchar_t>::collate_byname(size_t refs) failed to construct for
+0x0ec915  Saturday
+0x0ec91e  April
+0x0ec924  August
+0x0ec92b  condition_variable::wait: mutex not locked
+0x0ec956  terminate_handler unexpectedly returned
+0x0ec97e  signed char
+0x0ec98a  sizeof...(
+0x0ec995  basic_ostream
+0x0ec9be  long long
+0x0ec9c8  noexcept(
+0x0ec9d2  unsupported restore location for register
+0x0eca09  cESP_LineBotsHidden
+0x0eca1d  cESP_Health
+0x0eca29  cESP_Name
+0x0eca33  iESP_Point
+0x0eca3e  I0: %i
+0x0eca50  Library found with three consecutive matching segments!
+0x0eca88  Orientation monitor thread started
+0x0ecaab  ()Ljava/lang/CharSequence;
+0x0ecac6  java/lang/CharSequence
+0x0ecadd  (Landroid/content/ContentResolver;Ljava/lang/String;)Ljava/lang/String;
+0x0ecb25  Java_com_miniclip_input_MCInput_nativeTouchesBegin
+0x0ecb58  /dev/urandom
+0x0ecb65  Failed to get Android ID
+0x0ecb7e  LIB LOADED SUCCESSFULLY
+0x0ecb96  tRNS before PLTE
+0x0ecba7  IDAT size limit
+0x0ecbb7  unsupported
+0x0ecbc3  no SOF
+0x0ecbca  bad DHT header
+0x0ecbd9  bad size list
+0x0ecbe7  bad delta
+0x0ecbf1  can't merge dc and ac
+0x0ecc07  max value > 65535
+0x0ecc19  read past buffer
+0x0ecc2a  discarded
+0x0ecc38  GameManager
+0x0ecc44  Confirm each shot before it fires
+0x0eccd2  License Information
+0x0ecd32  parse_error
+0x0ecd3e  while parsing
+0x0ecd4d  number literal
+0x0ecd5c  unknown token
+0x0ecd6a  type must be number, but is
+0x0ecd87  BorderSize
+0x0ecd92  PlotLines
+0x0ecd9c  ColumnsClipRect
+0x0ecdac  Settings
+0x0ecdb5  glyphs
+0x0ecdc3  A:%3d
+0x0ecdc9  0.00..1.00
+0x0ecde3  Click to break in debugger!
+0x0ece03  %.2x
+0x0ece0b  xh_refresh_loop
+0x0ece1b  catch SIGSEGV when init or hook: %s
+0x0ece41  circumflex
+0x0ece87  operator new[]
+0x0ece96  operator!
+0x0ecedd  char16_t
+0x0ecee6  during phase1 personality function said it would stop here, but now in phase2 it did not stop here
+0x0ecfac  %s(0x%llx)
+0x0ecfb7  bStackTraceSEGV
+0x0ecfc7  fTableTop
+0x0ecfd1  getName
+0x0ecfd9  Failed to get application context
+0x0ecffb  getDefaultDisplay
+0x0ed00d  ()Landroid/view/Display;
+0x0ed026  Orientation monitor thread working
+0x0ed04c  AutoPlay BREAK OK: angle=%.4f power=%.1f pocketed=%d head=%d
+0x0ed089  &serial=
+0x0ed0f5  first not IHDR
+0x0ed104  bad header
+0x0ed10f  not BMP
+0x0ed117  bad component count
+0x0ed12b  bad H
+0x0ed131  bad codelengths
+0x0ed141  DebugTouch
+0x0ed150  w+be
+0x0ed182  r-xp
+0x0ed187  %s: no memory for .dynsym
+0x0ed1a5  TableBorderStrong
+0x0ed1bb  %d active allocations
+0x0ed1d1  WorkRect
+0x0ed1da  ColumnsContentHeadersUsed
+0x0ed1f4  Save to disk
+0x0ed201  None
+0x0ed206  ITEMS
+0x0ed20c  AdvanceX: %.1f
+0x0ed21b  Flags: 0x%04X =%s%s%s
+0x0ed231  (Frozen)
+0x0ed23b  ##Text
+0x0ed242  StretchSame
+0x0ed24e  A64_HOOK
+0x0ed25b  libxhook 1.2.0 (aarch64)
+0x0ed274  ios_base::clear
+0x0ed28b  January
+0x0ed293  October
+0x0ed29d  hyphen-minus
+0x0ed2aa  period
+0x0ed2b3  alnum
+0x0ed2c0  typename
+0x0ed2ce  operator()
+0x0ed2d9  operator>
+0x0ed2e3  operator[]
+0x0ed2ee  operator->
+0x0ed2f9  unsigned long
+0x0ed319  setRegister
+0x0ed386  v1_log_stacktrace: %s
+0x0ed39c  cESP_BorderAlertHidden
+0x0ed3b3  fSelectedRangeX
+0x0ed3c3  /data/.*./com\.miniclip\.eightballpool/[0-9A-Z]{32}/[0-9a-z]{12}/[0-9a-z]{20}/
+0x0ed412  Searching Wolf base until found...
+0x0ed435  iAutoQueue_Mode
+0x0ed447  seller
+0x0ed46b  iAutoPlayStyle
+0x0ed47a  ESP::LINES
+0x0ed485  ESP::POCKETS
+0x0ed492  outofdata
+0x0ed49c  unknown BMP
+0x0ed4a8  no clear code
+0x0ed4b6  invalid width
+0x0ed4d7  \ufffd
+0x0ed4de  Account
+0x0ed4e6  Hide overlay while capturing
+0x0ed536  TabUnfocused
+0x0ed543  PlotHistogram
+0x0ed551  ##Background
+0x0ed55e  ##Foreground
+0x0ed56b  Clear
+0x0ed571  Settings packed data: Tables: %d bytes
+0x0ed598  Mouse
+0x0ed59e  Visible: %d
+0x0ed5aa  Active: %d/%d, WriteAccessed: %d, BeginOrderWithinContext: %d
+0x0ed5e8  Table 0x%08X (%d columns, in '%s')%s
+0x0ed60d  Column %d Order %d SortOrder %d %s Vis %d %s %7.3f UserID 0x%08X
+0x0ed654  *Unknown item*
+0x0ed663  M:000
+0x0ed669  V:%3d
+0x0ed66f  %02X%02X%02X%02X
+0x0ed680  (%.3ff, %.3ff, %.3ff, %.3ff)
+0x0ed69d  (%d,%d,%d,%d)
+0x0ed6bb  Position
+0x0ed6c4  Order=%d%n
+0x0ed6cf  No active hook found for symbol %p
+0x0ed6f2  Can NOT found dynamic segment. %s
+0x0ed714  RELA
+0x0ed719  clock_gettime(CLOCK_MONOTONIC) failed
+0x0ed73f  time_get_byname failed to construct for
+0x0ed76c  hyphen
+0x0ed777  stoul
+0x0ed77d  > typename
+0x0ed789  (anonymous namespace)
+0x0ed79f  operator==
+0x0ed7aa  complex
+0x0ed7b3  CIE version is not 1 or 3
+0x0ed7d5  cESP_BoxHidden
+0x0ed7e4  bESP_DrawInitialPos
+0x0ed7f8  fAIM_SnapStrength
+0x0ed80a  /com.miniclip.eightballpool/
+0x0ed827  getRotation
+0x0ed833  getText
+0x0ed83b  GetClipboard: %s
+0x0ed84c  xhook_refresh failed
+0x0ed861  TRUE KEY
+0x0ed86a  Cancel
+0x0ed871  iAutoPlaySpeed
+0x0ed880  Paste your license key then tap LOGIN
+0x0ed8b1  bad ctype
+0x0ed8bb  no SOI
+0x0ed8c2  bad COM len
+0x0ed8ce  0 width
+0x0ed8d6  output buffer limit
+0x0ed8ea  a+be
+0x0ed95a  <parse error>
+0x0ed968  PopupBg
+0x0ed970  HeaderActive
+0x0ed97d  TabHovered
+0x0ed988  Recovered from missing EndChild() for '%s'
+0x0ed9b3  ##Tooltip_%02d
+0x0ed9c2  LogButtons
+0x0ed9cd  ContentIdeal
+0x0ed9da  Windows
+0x0ed9e2  "%s"
+0x0ed9e7  NAV,FOCUS
+0x0ed9f1  Columns Id: 0x%08X, Count: %d, Flags: 0x%04X
+0x0eda1e  %s, %.0fpx
+0x0eda29  Reset order
+0x0eda35  <Unknown>
+0x0eda3f  SaveFlags: 0x%08X
+0x0eda51  M:0.000
+0x0eda59  V:%0.3f
+0x0eda61  Current
+0x0eda69  (Popup)
+0x0eda71  do not ignore hook after refresh(): %s, %s
+0x0eda9c  .rel.plt
+0x0edaa5  The expression contained an invalid range in a {} expression.
+0x0edae7  %s failed to broadcast
+0x0edafe  vtable for
+0x0edb0a  VTT for
+0x0edb13  alignof (
+0x0edb1f  noexcept (
+0x0edb2a  char
+0x0edb2f  operator<
+0x0edb39  operator->*
+0x0edb45  unsigned int
+0x0edbb4  cESP_LineHidden
+0x0edbc4  cESP_LineBoss
+0x0edbd2  iBulletTrack_TargetBone
+0x0edbea  rwxp
+0x0edbf1  android/content/Context
+0x0edc09  .*/com.miniclip.eightballpool/.*
+0x0edc2a  AutoPlay BREAK: rejected - no shot pockets >=2 balls
+0x0edc5f  StartMatch
+0x0edc6a  (PUBG)
+0x0edc72  %s %d%%
+0x0edc7a  not GIF
+0x0edc82  bad SOS
+0x0edc8a  array
+0x0edc90  string
+0x0edc9b  About
+0x0edca1  Draw Prediction Lines
+0x0edce4  Telegram:
+0x0edd26  TabActive
+0x0edd30  TableHeaderBg
+0x0edd3e  PopupID: %08x, Window: '%s'%s%s
+0x0edd5e  Fonts (%d)
+0x0edd69  Atlas texture
+0x0edd77  CURRENTLY APPENDING
+0x0edd8b  Callback %p, user_data %p
+0x0edda7  Pos: (%.1f,%.1f), Size: (%.1f,%.1f), ContentSize (%.1f,%.1f) Ideal (%.1f,%.1f)
+0x0ede29  #SCROLLY
+0x0ede3b  ###NavWindowingList
+0x0ede4f  Pos=%i,%i
+0x0ede59  RefScale=%f
+0x0ede65  Width=%d
+0x0ede77  moneypunct_byname failed to construct for
+0x0edea2  Friday
+0x0edeaf  plus-sign
+0x0edebb  : out of range
+0x0edee8  dynamic_cast
+0x0edefb  short
+0x0edf01  ...
+0x0edf07  ostream
+0x0edf0f  long double
+0x0edf4b  ()Landroid/app/ActivityThread;
+0x0edf6a  AutoPlay SLOW: scan complete - no shot found
+0x0edf9b  iAutoQueue_BetPercent
+0x0edfb1  true
+0x0edfb6  Connecting to server:
+0x0edfdd  not PSD
+0x0edfe5  unsupported bit depth
+0x0edffb  ##AutoPlayBtn
+0x0ee06c  thread constructor failed
+0x0ee086  failed to open maps
+0x0ee09a  Text
+0x0ee09f  ResizeGripActive
+0x0ee0b0  InnerClipRect
+0x0ee0be  Show ImDrawCmd mesh when hovering
+0x0ee0e0  ##Ini
+0x0ee0e6  DragDrop: %d, SourceId = 0x%08X, Payload "%s" (%d bytes)
+0x0ee11f  NavActivateFlags: %04X
+0x0ee136  glyph
+0x0ee13c  Key 0x%08X Value { i: %d }
+0x0ee157  Main Pos: (%.0f,%.0f), Size: (%.0f,%.0f)
+0x0ee180  WorkArea Offset Left: %.0f Top: %.0f, Right: %.0f, Bottom: %.0f
+0x0ee1c0  %s: NULL
+0x0ee1c9  NoNavInputs
+0x0ee1d5  Clear settings
+0x0ee1e4  H:%0.3f
+0x0ee1ec  0..255
+0x0ee1f3  #version %d
+0x0ee20c  Pos=%d,%d
+0x0ee217  Visible=%d%n
+0x0ee227  map refreshed
+0x0ee235  Thursday
+0x0ee246  The expression contained an invalid back reference.
+0x0ee2ae  reverse-solidus
+0x0ee2c9  guard variable for
+0x0ee2e0  operator?
+0x0ee31a  cXrayHidden
+0x0ee326  fESP_LineThickness
+0x0ee339  fSelectedRangeY
+0x0ee349  I10: %i
+0x0ee367  mInitialApplication
+0x0ee37b  Landroid/app/Application;
+0x0ee395  Java_com_miniclip_input_MCInput_nativeTouchesMove
+0x0ee3cb  game=
+0x0ee3d1  Connecting to server...
+0x0ee3e9  invalid PLTE
+0x0ee3fd  no preset dict
+0x0ee40c  TenByFiveNarrowTableProperties
+0x0ee42b  /no_backup/persistence.json
+0x0ee4d5  excessive array size:
+0x0ee4ec  type must be boolean, but is
+0x0ee50a  ScrollbarSize
+0x0ee518  Recovered from missing End() for '%s'
+0x0ee53e  ColumnsWorkRect
+0x0ee54e  WINDOWING
+0x0ee558  Column %02d: OffsetNorm %.3f (= %.1f px)
+0x0ee581  Set as default
+0x0ee590  Font scale
+0x0ee59b  Glyphs
+0x0ee5a2  IsPlatformWindow
+0x0ee5b4  Flags: 0x%08X (%s%s%s%s%s%s%s%s%s..)
+0x0ee5d9  NoResize
+0x0ee5e3  columns
+0x0ee5eb  %%s: %s
+0x0ee5f3  %d.%d
+0x0ee5f9  (Main menu bar)
+0x0ee609  Sort=%d%c
+0x0ee614  0x%.3zx:
+0x0ee641  The parser did not consume the entire regular expression.
+0x0ee67f  five
+0x0ee684  full-stop
+0x0ee68e  left-parenthesis
+0x0ee69f  low-line
+0x0ee6a8  generic
+0x0ee6b0  virtual thunk to
+0x0ee6d0  operator*
+0x0ee6da  operator||
+0x0ee6e5  istream
+0x0ee6f1  char8_t
+0x0ee6f9  DW_OP_deref_size with bad size
+0x0ee749  iAIM_WindowX
+0x0ee756  get stat failed
+0x0ee766  multiple IHDR
+0x0ee774  invalid
+0x0ee77c  missing color table
+0x0ee790  bad V
+0x0ee796  bad TQ
+0x0ee7e2  invalid literal
+0x0ee883  string literal
+0x0ee892  ButtonActive
+0x0ee89f  TabBar
+0x0ee8aa  Glyphs (%d)
+0x0ee8b6  OwnedByApp
+0x0ee8c2  AlwaysAutoResize
+0x0ee8d3  RootWindow
+0x0ee8de  HoveredColumnBody: %d, HoveredColumnBorder: %d
+0x0ee90d  #version 300 es
+0x0ee91d  (Untitled)
+0x0ee928  Column %-2d
+0x0ee938  Monday
+0x0ee93f  February
+0x0ee948  mutex lock failed
+0x0ee95a  The expression contained an invalid character class name.
+0x0ee996  backspace
+0x0ee9a0  exclamation-mark
+0x0ee9b1  unspecified system_category error
+0x0ee9d3  unexpected_handler unexpectedly returned
+0x0ee9fc  construction vtable for
+0x0eea23  template<
+0x0eea2d  operator<<
+0x0eea38  operator+
+0x0eea42  operator+=
+0x0eea4d  operator++
+0x0eea58  unsigned long long
+0x0eea6b  imaginary
+0x0eeac4  v0_log_stacktrace: %s
+0x0eeada  fSelectedRangeW
+0x0eeaea  SEGV
+0x0eeaef  Failed to get class name
+0x0eeb08  android/view/WindowManager
+0x0eeb23  StartLastMatch
+0x0eeb32  Auto Queue
+0x0eeb3d  LOGIN  (paste key from clipboard)
+0x0eeb5f  /data/user_de/0/
+0x0eeb8e  StateManager
+0x0eebcf  Enable Auto Play
+0x0eebf0  @bum7md8
+0x0eec6a  cannot use erase() with
+0x0eec86  /no_backup/style.json
+0x0eec9c  fake_dlopen_with_path
+0x0eecb2  %s found at %p
+0x0eecc1  Button
+0x0eecc8  #RESIZE
+0x0eecd0  Recovered from missing PopID() in '%s'
+0x0eecf7  Recovered from missing PopItemFlag() in '%s'
+0x0eed24  Show ImDrawCmd bounding boxes when hovering
+0x0eed50  NavActivateId/DownId/PressedId/InputId: %08X/%08X/%08X/%08X
+0x0eed8c  %.1f
+0x0eed91  %02d%c Tab 0x%08X '%s' Offset: %.1f, Width: %.1f/%.1f
+0x0eedc7  NoSavedSettings
+0x0eedd8  CellPaddingX: %.1f, CellSpacingX: %.1f/%.1f, OuterPaddingX: %.1f
+0x0eee19  ColumnsCount: %d (max %d)
+0x0eee33  ##Combo_%02d
+0x0eee46  R:%3d
+0x0eee4c  ##current
+0x0eee56  ##hex
+0x0eee5c  ##preview
+0x0eee7c  attribute vec2 Position;
+0x0eee95  attribute vec2 UV;
+0x0eeea8  attribute vec4 Color;
+0x0eef5b  Width=%d%n
+0x0eef66  Visible=%d
+0x0eef72  Can NOT found the first load segment. %s
+0x0eef9b  %lx-%lx %4s
+0x0eefa8  Sunday
+0x0eefb8  grave-accent
+0x0eefcb  : no conversion
+0x0eefe3  operator=
+0x0eefed  operator/=
+0x0eeff8  bool
+0x0eeffd  evaluateExpression
+0x0ef017  bMoveOnlyWithTitleBar
+0x0ef02d  fAIM_SnapLineThickness
+0x0ef044  Library found! Exiting loop...
+0x0ef063  Failed to find Method class
+0x0ef07f  Content-Type: application/x-www-form-urlencoded
+0x0ef0af  HTTP request failed:
+0x0ef0c5  "status":true
+0x0ef0d3  iLineStyle
+0x0ef0de  iLang
+0x0ef0e4  bad tRNS len
+0x0ef0f1  AI Learn: recorded failure ball=%d pocket=%d angle=%.3f power=%.1f (mem=%zu)
+0x0ef13e  cannot use operator[] with a numeric argument with
+0x0ef172  Developer:
+0x0ef306  Rounding
+0x0ef311  r--p
+0x0ef316  MenuBarBg
+0x0ef320  ScrollbarGrab
+0x0ef32e  Viewports (%d)
+0x0ef33d  NavWindow: '%s'
+0x0ef34d  NavId: 0x%08X, NavLayer: %d
+0x0ef369  ChildMenu
+0x0ef374  Original
+0x0ef37d  Column %d%n
+0x0ef389  %.*s%%d%s
+0x0ef397  ref_idx must be less than or equal to current_idx!
+0x0ef3ca  hooking %s in %s
+0x0ef3dc  strtab == NULL
+0x0ef3ec  XH_HK_OK %p: %p -> %p %s %s
+0x0ef426  %I:%M:%S %p
+0x0ef432  Wednesday
+0x0ef43c  July
+0x0ef44e  Unknown error type
+0x0ef467  question-mark
+0x0ef475  right-brace
+0x0ef485  operator^
+0x0ef48f  restrict
+0x0ef499  decimal64
+0x0ef4f6  FALSE: %i
+0x0ef500  window
+0x0ef507  android/provider/Settings$Secure
+0x0ef528  ANDROID_ID
+0x0ef533  getString
+0x0ef53d  Selected mode %s with bet %lld (50%% of %lld coins)
+0x0ef571  reason
+0x0ef59b  no PLTE
+0x0ef5a3  no IDAT
+0x0ef5ab  not enough pixels
+0x0ef5ca  fShotDelay
+0x0ef61d  excessive object size:
+0x0ef639  Recovered from missing PopStyleVar() in '%s'
+0x0ef666  %*s%.*s
+0x0ef66e  Log To File
+0x0ef67a  OuterRectClipped
+0x0ef68b  Show windows begin order
+0x0ef6a4  SettingsIniData
+0x0ef6bc  G:%3d
+0x0ef6c2  H: %.3f, S: %.3f, V: %.3f, A: %.3f
+0x0ef6e5  #CLOSE
+0x0ef6ec  ##MainMenuBar
+0x0ef754  GNU_HASH
+0x0ef75d  .rela.android
+0x0ef76b  .rel.android
+0x0ef788  condition_variable wait failed
+0x0ef7a7  random_device got EOF
+0x0ef7bd  The expression contained mismatched { and }.
+0x0ef7ee  print
+0x0ef7f4  stoull
+0x0ef7fb  string_view::substr
+0x0ef80f  terminating with %s exception of type %s: %s
+0x0ef83c  non-virtual thunk to
+0x0ef884  pixel vector[
+0x0ef892  union
+0x0ef8f6  cAIM_SnapLineBot
+0x0ef907  iXray
+0x0ef90d  /proc/self/maps
+0x0ef91d  android/view/Display
+0x0ef932  Potted: %d balls (score: %.0f)
+0x0ef951  AI Learn: avoiding past failure ball=%d pocket=%d
+0x0ef987  0123456789ABCDEF
+0x0ef9ba  bad offset
+0x0ef9c5  BMP RLE
+0x0ef9cd  cannot use operator[] with a string argument with
+0x0efa00  CCDirector
+0x0efa0b  MainManager
+0x0efa5f  Draw Pockets
+0x0efa6c  Line Style
+0x0efac0  <U+%.4X>
+0x0efac9  %s not found in my userspace
+0x0efae6  /apex/com.android.runtime/lib64/
+0x0efb07  DragDropTarget
+0x0efb16  1.85 WIP
+0x0efb1f  window_context
+0x0efb31  Tools
+0x0efb37  Tab Bars (%d)
+0x0efb45  %s %04d: pos (%8.2f,%8.2f), uv (%.6f,%.6f), col %08X
+0x0efb7b  Vert:
+0x0efb81  NavLastIds[%d]: 0x%08X at +(%.1f,%.1f)(%.1f,%.1f)
+0x0efbb3  0x%08X "%s" Pos (%d,%d) Size (%d,%d) Collapsed=%d
+0x0efbe9  #%02X%02X%02X
+0x0efbf7  R: %d, G: %d, B: %d
+0x0efc0b  (%.3f, %.3f, %.3f)
+0x0efc1e  Weight=%.4f
+0x0efc2b  %llu
+0x0efc32  cntrl
+0x0efc38  punct
+0x0efc3e  upper
+0x0efc44  system
+0x0efc4e  yptn
+0x0efc53  operator%=
+0x0efc5e  const
+0x0efc65  DW_OP_fbreg not implemented
+0x0efc89  cESP_NameHidden
+0x0efc99  fWeapon_FireSpeed
+0x0efcab  fHeight
+0x0efcb3  Wolf founded
+0x0efcc0  F0: %i
+0x0efcc7  Searching 8BP base until found...
+0x0efced  SELLER:
+0x0efcf6  only 8-bit
+0x0efd01  bad DNL height
+0x0efd10  VisualCue
+0x0efd1a  object
+0x0efd21  "subtype":
+0x0efd2d  : 0x
+0x0efd32  MenuManager
+0x0efd3e  Enable Auto Queue
+0x0efd50  /vendor/lib64/
+0x0efd5f  ScrollbarGrabActive
+0x0efd73  NavHighlight
+0x0efd80  #FOCUSSCOPE
+0x0efd8c  ##Popup_%08x
+0x0efd9b  OuterRect
+0x0efda5  InnerRect
+0x0efdaf  HostClipRect
+0x0efdbc  (%6.1f,%6.1f) (%6.1f,%6.1f) Size (%6.1f,%6.1f) %s
+0x0efdee  NavActive: %d, NavVisible: %d
+0x0efe0c  Columns
+0x0efe14  Settings 0x%08X (%d columns)
+0x0efe31  Width
+0x0efe3b  B:%3d
+0x0efe41  ##ColorButton
+0x0efe4f  Copy as..
+0x0efe63  StretchProp
+0x0efe6f  android rel/rela format error
+0x0efe8e  catch SIGSEGV when check_elfheader: %s
+0x0efedb  ctype_byname<char>::ctype_byname failed to construct for
+0x0eff15  ctype_byname<wchar_t>::ctype_byname failed to construct for
+0x0eff52  June
+0x0eff57  random_device got an unexpected error
+0x0eff7d  The expression contained an invalid character range, such as [b-a] in most encodings.
+0x0efff2  semicolon
+0x0efffc  terminating with %s foreign exception
+0x0f0022  uncaught
+0x0f002e  operator--
+0x0f0039  operator|=
+0x0f00d2  cAIM_SnapLine
+0x0f00e0  [!dladdr]
+0x0f00ea  F1000: %i
+0x0f00f4  Searching %s until found...
+0x0f012a  android/content/ClipboardManager
+0x0f014b  STRIPE
+0x0f0152  Tier %s
+0x0f015e  License Key:
+0x0f016b  Key is empty
+0x0f0178  1/2/4/8/16-bit only
+0x0f018c  Table
+0x0f0196  Approval before launch
+0x0f01ad  ##cb_
+0x0f0231  %lx-%*lx %*s %*s %*s %*s %s
+0x0f024d  Border
+0x0f0254  NavWindowingDimBg
+0x0f0266  Viewports
+0x0f0270  NavDisableHighlight: %d, NavDisableMouseHover: %d
+0x0f02a2  NavWindowingTarget: '%s'
+0x0f02bb  %s '%s'%s
+0x0f02c5  Child
+0x0f02d6  %0.3f
+0x0f02e0  Sort=%d%c%n
+0x0f02ec  double
+0x0f02f3  recursive_timed_mutex lock limit reached
+0x0f031c  There was insufficient memory to convert the expression into a finite state machine.
+0x0f0373  commercial-at
+0x0f0383  right-parenthesis
+0x0f0397  graph
+0x0f039d  lower
+0x0f03a9  'block-literal'
+0x0f03b9  operator-
+0x0f03c3  basic_istream
+0x0f03e1  cESP_SkeletonHidden
+0x0f03f5  bESP_DrawPockets
+0x0f0406  bEnableDebug
+0x0f0413  smth: %p
+0x0f042b  can't fopen
+0x0f0437  .hwid
+0x0f043d  "data"
+0x0f0444  MAJISK
+0x0f044b  RETURNING NOW MY GODDY GOD
+0x0f0472  integer parse overflow
+0x0f0489  not HDR
+0x0f049c  binary
+0x0f04a6  Language
+0x0f04f7  parse error
+0x0f0503  failed to read load address for %s
+0x0f0526  Default Depth
+0x0f0537  SettingsWindows
+0x0f0547  ParentWindow
+0x0f0554  Column %d order %d '%s': offset %+.2f to %+.2f%s
+0x0f0585  Enabled: %d, VisibleX/Y: %d/%d, RequestOutput: %d, SkipItems: %d, DrawChannels: %d,%d
+0x0f05db  WidthGiven: %.1f, Request/Auto: %.1f/%.1f, StretchWeight: %.3f (%.1f%%)
+0x0f0623  MinX: %.1f, MaxX: %.1f (%+.1f), ClipRect: %.1f to %.1f (+%.1f)
+0x0f0662  ContentWidth: %.1f,%.1f, HeadersUsed/Ideal %.1f/%.1f
+0x0f0697  Sort: %d%s, UserID: 0x%08X, Flags: 0x%04X: %s%s%s..
+0x0f06cb  #image
+0x0f06d2  ##max
+0x0f06dc  %H:%M:%S
+0x0f06e5  November
+0x0f06ee  condition_variable timed_wait failed
+0x0f0719  backslash
+0x0f0723  dollar-sign
+0x0f0731  three
+0x0f0737  %s failed to acquire mutex
+0x0f0752  invocation function for block in
+0x0f0774  static_cast
+0x0f0780  sizeof... (
+0x0f0792  operator-=
+0x0f07e7  getULEB128
+0x0f07f2  malformed uleb128 expression
+0x0f083c  Ljava/lang/String;
+0x0f084f  AUTO::PLAY
+0x0f085a  tRNS with alpha
+0x0f086a  bad bpp
+0x0f0872  wrong channel count
+0x0f0886  PICT
+0x0f0890  bad palette
+0x0f089f  null}
+0x0f08b2  Auto Shot Power
+0x0f08c2  cannot get value
+0x0f08d3  null literal
+0x0f08e0  Recovered from missing EndTable() in '%s'
+0x0f090a  Log To TTY
+0x0f0915  Gamepad
+0x0f091d  HoveredWindow: '%s'
+0x0f0931  HoveredId: 0x%08X (%.2f sec), AllowOverlap: %d
+0x0f0960  Viewport #%d
+0x0f096f  WidthFixed
+0x0f0991  _COL3F
+0x0f0998  _COL4F
+0x0f099f  UserID=%08X
+0x0f09b0  mprotect failed for %p, errno = %d
+0x0f09d3  September
+0x0f09e3  circumflex-accent
+0x0f09f7  eight
+0x0f09fd  blank
+0x0f0a03  digit
+0x0f0a09  Operation not permitted on an object without an associated state.
+0x0f0a4b  %s failed to release mutex
+0x0f0a69  operator<<=
+0x0f0a75  ::operator
+0x0f0a81  enum
+0x0f0af3  bStackTraceMemcpy
+0x0f0b05  sCurrentActivityThread
+0x0f0b1c  Java_com_miniclip_input_MCInput_nativeTouchesEnd
+0x0f0b4d  FIRE!
+0x0f0b53  &user_key=
+0x0f0b7e  bad bits_per_channel
+0x0f0b93  0-pixel image
+0x0f0ba1  outofmem
+0x0f0bbb  bad PNM
+0x0f0bd3  \u%04x\u%04x
+0x0f0be0  %.1fs
+0x0f0be6  Mode
+0x0f0c34  object separator
+0x0f0c49  ChildBg
+0x0f0c51  TitleBgCollapsed
+0x0f0c62  SliderGrab
+0x0f0c6d  Header
+0x0f0c74  SeparatorHovered
+0x0f0c85  ResizeGrip
+0x0f0c90  ColumnsContentUnfrozen
+0x0f0ca7  Will call the IM_DEBUG_BREAK() macro to break in debugger.
+0x0f0ce2  Warning: If you don't have a debugger attached, this will probably crash.
+0x0f0d2c  <NULL>
+0x0f0d33  HoveredWindowUnderMovingWindow: '%s'
+0x0f0d58  ActiveIdUsing: Wheel: %d, NavDirMask: %X, NavInputMask: %X, KeyInputMask: %llX
+0x0f0da7  NavFocusScopeId = 0x%08X
+0x0f0dc0  Mesh: ElemCount: %d, VtxOffset: +%d, IdxOffset: +%d, Area: ~%0.f px
+0x0f0e04  ResizedColumn: %d, ReorderColumn: %d, HeldHeaderColumn: %d
+0x0f0e3f  G:%0.3f
+0x0f0e47  S:%0.3f
+0x0f0e4f  ##original
+0x0f0e5a  H: %.3f, S: %.3f, V: %.3f
+0x0f0e74  found %s at symidx: %u (ELF_HASH)
+0x0f0e97  four
+0x0f0ea0  vector
+0x0f0ea7  terminating
+0x0f0eb7  reinterpret_cast
+0x0f0ef8  truncated uleb128 expression
+0x0f0f19  cXray
+0x0f0f1f  fBulletTrack_Probability
+0x0f0f39  no %s found
+0x0f0f45  android/app/ActivityThread
+0x0f0f60  GAME:
+0x0f0f66  No response from server
+0x0f0f7e  %s %d %s
+0x0f0f91  Authenticating...
+0x0f0fa3  /system/fonts/DroidNaskh-Regular.ttf
+0x0f0fc8  cmdline: %s
+0x0f0fd4  bad sizes
+0x0f0fde  cannot create object from initializer list
+0x0f1009  ],"subtype":
+0x0f1060  MAJISK  v2.0  -  Gold Edition
+0x0f10c6  number overflow parsing '
+0x0f10e0  true literal
+0x0f10ed  false literal
+0x0f10fb  ScrollbarBg
+0x0f1107  TableBorderLight
+0x0f1118  %s/%08X
+0x0f1120  (%6.1f,%6.1f) (%6.1f,%6.1f) Size (%6.1f,%6.1f) Col %d %s
+0x0f1159  DrawList
+0x0f1162  Tables
+0x0f1169  SettingsDirtyTimer %.2f
+0x0f1181  Settings packed data: Windows: %d bytes
+0x0f11a9  Note than the default embedded font is NOT meant to be scaled.
+0x0f12d2  (Glimmer of hope: the atlas system will be rewritten in the future to make scaling more flexible.)
+0x0f1335  %s 0x%08X (%d tabs)%s
+0x0f134b  NavLastIds[%d]: 0x%08X
+0x0f1362  ColumnsGivenWidth: %.1f, ColumnsAutoFitWidth: %.1f, InnerWidth: %.1f%s
+0x0f13b0  float
+0x0f13ba  xhook
+0x0f13c5  1.2.0
+0x0f13cb  phdr == NULL
+0x0f13e1  recursive_mutex constructor failed
+0x0f1406  number-sign
+0x0f141f  operator
+0x0f1430  void
+0x0f1435  decimal128
+0x0f1488  getTableEntrySize
+0x0f14c0  ro.arch
+0x0f14c8  bAlwaysAutoResize
+0x0f14da  IMAX: %i
+0x0f14e3  java/lang/Class
+0x0f14f3  Failed to find ActivityThread class
+0x0f1517  VM is null
+0x0f1526  popMenuState arg1 %p, arg2 %p, arg3 %d, arg4 %p
+0x0f1556  Login failed:
+0x0f1565  To get a key, contact Telegram @bum7md8
+0x0f158d  tRNS after IDAT
+0x0f15ae  r+be
+0x0f15ec  Logout
+0x0f15f3  , column
+0x0f1600  TitleBgActive
+0x0f160e  TabUnfocusedActive
+0x0f1621  void_context
+0x0f162e  Settings handlers: (%d)
+0x0f1646  Tooltip
+0x0f1653  Alpha Bar
+0x0f165d  precision highp float;
+0x0f1674  layout (location = 0) in vec2 Position;
+0x0f169c  layout (location = 1) in vec2 UV;
+0x0f16be  layout (location = 2) in vec4 Color;
+0x0f185d  ProjMtx
+0x0f1865  Order=%d
+0x0f1870  [%s]
+0x0f1876  %lx-%*lx %4s %lx %*x:%*x %*d%n
+0x0f1895  unexpected r_addend in android.rel section
+0x0f18c0  December
+0x0f18cb  carriage-return
+0x0f18ef  vertical-tab
+0x0f18fc  thread::join failed
+0x0f1915  operator&&
+0x0f1920  decimal32
+0x0f192a  CIE ID is not zero
+0x0f1945  cESP_BorderAlert
+0x0f1956  fWidth
+0x0f195d  fANYTHING
+0x0f1967  fANYTHING2
+0x0f1972  fFontScale
+0x0f197d  fESP_UpdateFps
+0x0f198c  Library found! Base: %p, Size: %zu
+0x0f19af  Failed to find Class class
+0x0f19ca  java/lang/reflect/Method
+0x0f19e7  Best: %.1f
+0x0f19f3  @ %.0f power
+0x0f1a01  Server Response:
+0x0f1a84  bad format
+0x0f1adc  invalid BOM; must be 0xEF 0xBB 0xBF if given
+0x0f1bee  failed to open %s
+0x0f1c00  %s: k=%d shdr=%p type=%x
+0x0f1c19  dynamic sections not found in %s
+0x0f1c3a  FrameBg
+0x0f1c42  TableRowBgAlt
+0x0f1c50  Recovered from missing EndGroup() in '%s'
+0x0f1c93  ActiveIdWindow: '%s'
+0x0f1ca8  (In front-to-back order:)
+0x0f1cc2  WidthStretch
+0x0f1cd0  ##rgb
+0x0f1cd6  Weight=%f%n
+0x0f1ce2  chain == NULL
+0x0f1d26  left-brace
+0x0f1d31  underscore
+0x0f1d3e  unspecified future_errc value
+0x0f1d5d  unique_lock::unlock: not locked
+0x0f1d7d  thread-local wrapper routine for
+0x0f1d9f  thread-local initialization routine for
+0x0f1dc8  sizeof (
+0x0f1dd1  operator!=
+0x0f1dff  struct
+0x0f1e4e  Can't binary search on variable length encoded data.
+0x0f1ee3  [!dladdr](0x%lx)
+0x0f1ef4  F10: %i
+0x0f1efc  AI Learn: success ball=%d pocket=%d
+0x0f1f20  AutoPlay AI: No legal candidates, switching to SLOW
+0x0f1f54  arg4 %p, arg5 %p, arg6 %p, arg7 %p, arg8 %p, arg9 %p, arg10 %p, arg11 %p
+0x0f1f9d  token
+0x0f1fa3  bad BMP
+0x0f1fab  corrupt
+0x0f1fb3  expected marker
+0x0f1fc3  bad DRI len
+0x0f1fcf  unsupported format
+0x0f1fe9  State
+0x0f1fef  Notify
+0x0f1ff6  invalid comment; missing closing '*/'
+0x0f20ae  end of input
+0x0f20bb  cannot use value() with
+0x0f20e1  ButtonHovered
+0x0f20ef  '%s':
+0x0f20f5  TabBars
+0x0f20fd  ActiveId: 0x%08X/0x%08X (%.2f sec), AllowOverlap: %d, Source: %s
+0x0f213e  Ascent: %f, Descent: %f, Height: %f
+0x0f2162  Pos: (%.2f,%.2f)->(%.2f,%.2f)
+0x0f2180  UV: (%.3f,%.3f)->(%.3f,%.3f)
+0x0f219d  Appearing: %d, Hidden: %d (CanSkip %d Cannot %d), SkipItems: %d
+0x0f21dd  S:%3d
+0x0f21e3  R:%0.3f
+0x0f21f3  %s: %d
+0x0f21fa  ##menubar
+0x0f231e  Size=%d,%d
+0x0f2332  MS:Error:mprotect() = %d
+0x0f234b  init OK: %s (%s %s PLT:%u DYN:%u ANDROID:%u)
+0x0f2379  fopen /proc/self/maps failed
+0x0f2396  set addr prot failed. ret: %d
+0x0f23b4  codecvt_byname<wchar_t, char, mbstate_t>::codecvt_byname failed to construct for
+0x0f2406  numpunct_byname<wchar_t>::numpunct_byname failed to construct for
+0x0f2462  random_device failed to open
+0x0f2480  The complexity of an attempted match against a regular expression exceeded a pre-set level.
+0x0f24dc  xdigit
+0x0f24e3  stold
+0x0f24e9  terminate_handler unexpectedly threw an exception
+0x0f251e  operator,
+0x0f2528  decimal16
+0x0f2532  noexcept
+0x0f253b  getRegister
+0x0f2585  unknown register
+0x0f2596  angousana
+0x0f25a0  bESP_DrawPredictionLine
+0x0f25b8  fSelectedRangeH
+0x0f25c8  Failed to get getName method
+0x0f25e5  GOLD EDITION
+0x0f25f2  libmain: %p
+0x0f25fe  bad comp method
+0x0f260e  bad Image Descriptor
+0x0f2623  bad SOS len
+0x0f262f  unexpected end
+0x0f2671  %.0f%%
+0x0f2678  Queue selection mode
+0x0f26d6  at line
+0x0f26e0  FrameBgHovered
+0x0f26ef  %s/%s_%08X
+0x0f2739  ColumnsContentFrozen
+0x0f274e  Weight
+0x0f2755  ##min
+0x0f2769  UserID=0x%08X%n
+0x0f27c8  .rel.dyn
+0x0f27d1  colon
+0x0f27d7  slash
+0x0f27dd  unspecified generic_category error
+0x0f2800  future
+0x0f281e  volatile
+0x0f2828  throw(
+0x0f282f  Pure virtual function called!
+0x0f2860  DW_OP_piece not implemented
+0x0f2895  zt?%
+0x0f2b4f  !(0)"
+0x0f2b5c  #*1892+$
+0x0f2b69  %,3:;4-&
+0x0f2b72  '.5<=6/7>????????????????RGB
+0x0f2f94  N8nlohmann16json_abi_v3_11_26detail9exceptionE
+0x0f311c  N8nlohmann16json_abi_v3_11_26detail23output_adapter_protocolIcEE
+0x0f358a  U1(\Q
+0x0f35b8  mSx@
+0x0f366a  b}$l
+0x0f36d9  ~)p$w
+0x0f3729  11eU%
+0x0f39eb  z^KD
+0x0f3a6e  DOTTED
+0x0f3a90  Last Selected
+0x0f3a9e  Smart
+0x0f3b53  N8nlohmann16json_abi_v3_11_26detail11parse_errorE
+0x0f3b85  N3obf12bool_functorIZN12ManualLookup5fnv1aEPKcEUlvE1_EE
+0x0f3bbd  N3obf17bool_functor_baseE
+0x0f3bd7  N3obf22next_step_functor_baseE
+0x0f3bf6  N3obf17next_step_functorIZN12ManualLookup5fnv1aEPKcEUlvE2_EE
+0x0f3c33  N3obf17next_step_functorIZN12ManualLookup5fnv1aEPKcEUlvE3_EE
+0x0f3c70  N3obf9next_stepE
+0x0f3d14  N3obf8rvholderIjEE
+0x0f3d27  N3obf13base_rvholderE
+0x0f418f  N3obf12bool_functorIZ7_mallocmE4$_10EE
+0x0f41b6  N3obf17next_step_functorIZ7_mallocmE4$_11EE
+0x0f41e2  N3obf12bool_functorIZZ7_mallocmENK4$_11clEvEUlvE0_EE
+0x0f4217  N3obf17next_step_functorIZZ7_mallocmENK4$_11clEvEUlvE1_EE
+0x0f4251  N3obf8rvholderIPvEE
+0x0f42fa  N3obf12bool_functorIZ6_dlsymPvPKcE4$_12EE
+0x0f44b0  N3obf8rvholderIiEE
+0x0f44c3  N3obf17next_step_functorIZ6_dlsymPvPKcE4$_13EE
+0x0f44f2  N3obf12bool_functorIZZ6_dlsymPvPKcENK4$_13clEvEUlvE_EE
+0x0f4529  N3obf17next_step_functorIZZ6_dlsymPvPKcENK4$_13clEvEUlvE0_EE
+0x0f4566  N3obf12bool_functorIZZZ6_dlsymPvPKcENK4$_13clEvENKUlvE0_clEvEUlvE1_EE
+0x0f45ac  N3obf17next_step_functorIZZZ6_dlsymPvPKcENK4$_13clEvENKUlvE0_clEvEUlvE2_EE
+0x0f45f7  N3obf8rvholderIPPvEE
+0x0f46a3  N3obf12bool_functorIZ8ehKkJGG8E4$_19EE
+0x0f46ca  N3obf17next_step_functorIZ8ehKkJGG8E4$_20EE
+0x0f46f6  N3obf12bool_functorIZ8D6QJ9OabE4$_40EE
+0x0f471d  N3obf17next_step_functorIZ8D6QJ9OabE4$_41EE
+0x0f4749  N3obf12bool_functorIZ8E92iZHmqE4$_56EE
+0x0f4770  N3obf17next_step_functorIZ8E92iZHmqE4$_57EE
+0x0f479c  N3obf12bool_functorIZ8FIcCgXqFE4$_69EE
+0x0f47c3  N3obf17next_step_functorIZ8FIcCgXqFE4$_70EE
+0x0f47ef  N3obf12bool_functorIZ8HXsrL5JQE4$_80EE
+0x0f4816  N3obf17next_step_functorIZ8HXsrL5JQE4$_81EE
+0x0f4842  N3obf12bool_functorIZ8cc9JBHaGE4$_96EE
+0x0f4869  N3obf17next_step_functorIZ8cc9JBHaGE4$_97EE
+0x0f4895  N3obf12bool_functorIZ8V6p3DUDDE5$_109EE
+0x0f48bd  N3obf17next_step_functorIZ8V6p3DUDDE5$_110EE
+0x0f48ea  N3obf12bool_functorIZ8Wrfoh2wTE5$_120EE
+0x0f4912  N3obf17next_step_functorIZ8Wrfoh2wTE5$_121EE
+0x0f4a44  !*28BLV$N
+0x0f4a70  '4GVix
+0x0f4a88  #0;HS`m
+0x0f4a94  $'*-
+0x0f4a9e  FMT[%
+0x0f4f57  ?7B:
+0x0f4f5c  P@VF
+0x0f4f6b  O=R@
+0x0f4f8c  mmmm
+0x0f5221  n;^
+0x0f52e1  Qkkbal
+0x0f53ef  i]Wb
+0x0f552f  9a&g
+0x0f5538  MGiI
+0x0f553d  wn>Jj
+0x0f557f  #.zf
+0x0f558d  +o*7
+0x0f5a9e  11c1

@@ -1,0 +1,299 @@
+{
+ "provenance": {
+  "style_fn": "0x23D0D0",
+  "settings_init": "0x239E48",
+  "gold_cluster_fns": [
+   "0x1BAF00-0x1BB010",
+   "0x1C8C00-0x1CA620",
+   "0x1CD400-0x1D8100"
+  ],
+  "coloredit_palette_fn": "0x2A8430-0x2A8620",
+  "alt_theme_fn": "0x266B20-0x266F70",
+  "library": "lib/arm64-v8a/library.so (mod core, 'MAJISK v2.0 - Gold Edition')"
+ },
+ "imgui_style_colors": [
+  {
+   "role": "Text",
+   "hex": "#FFFFFFFF",
+   "note": "custom (white)"
+  },
+  {
+   "role": "TextDisabled",
+   "hex": "#808080FF",
+   "note": "stock ImGui dark"
+  },
+  {
+   "role": "WindowBg",
+   "hex": "#0F0F0FF0",
+   "note": "dark charcoal 94%"
+  },
+  {
+   "role": "ChildBg",
+   "hex": "#00000000",
+   "note": "transparent"
+  },
+  {
+   "role": "PopupBg",
+   "hex": "#141414F0",
+   "note": "dark popup"
+  },
+  {
+   "role": "Border",
+   "hex": "#6E6E8080",
+   "note": "stock"
+  },
+  {
+   "role": "BorderShadow",
+   "hex": "#00000000",
+   "note": "none"
+  },
+  {
+   "role": "FrameBg",
+   "hex": "#294A7A8A",
+   "note": "navy translucent"
+  },
+  {
+   "role": "FrameBgHovered",
+   "hex": "#4296FA66",
+   "note": "imgui blue 40%"
+  },
+  {
+   "role": "FrameBgActive",
+   "hex": "#4296FAAB",
+   "note": "imgui blue 67%"
+  },
+  {
+   "role": "TitleBg",
+   "hex": "#0A0A0AFF",
+   "note": "near black"
+  },
+  {
+   "role": "TitleBgActive",
+   "hex": "#294A7AFF",
+   "note": "navy"
+  },
+  {
+   "role": "TitleBgCollapsed",
+   "hex": "#00000082",
+   "note": "black 51%"
+  },
+  {
+   "role": "MenuBarBg",
+   "hex": "#242424FF",
+   "note": "charcoal"
+  },
+  {
+   "role": "ScrollbarBg",
+   "hex": "#05050587",
+   "note": ""
+  },
+  {
+   "role": "ScrollbarGrab",
+   "hex": "#4F4F4FFF",
+   "note": ""
+  },
+  {
+   "role": "ScrollbarGrabHovered",
+   "hex": "#696969FF",
+   "note": ""
+  },
+  {
+   "role": "ScrollbarGrabActive",
+   "hex": "#828282FF",
+   "note": ""
+  },
+  {
+   "role": "CheckMark",
+   "hex": "#4296FAFF",
+   "note": "imgui blue"
+  },
+  {
+   "role": "SliderGrab",
+   "hex": "#3D85E0FF",
+   "note": "custom blue"
+  },
+  {
+   "role": "SliderGrabActive",
+   "hex": "#4296FAFF",
+   "note": ""
+  },
+  {
+   "role": "Button",
+   "hex": "#4296FA66",
+   "note": "imgui blue 40%"
+  },
+  {
+   "role": "ButtonHovered",
+   "hex": "#4296FAFF",
+   "note": "imgui blue"
+  },
+  {
+   "role": "ButtonActive",
+   "hex": "#0F87FAFF",
+   "note": "bright blue"
+  },
+  {
+   "role": "Header",
+   "hex": "#4296FA33",
+   "note": "imgui blue 20%"
+  },
+  {
+   "role": "HeaderHovered",
+   "hex": "#4296FACC",
+   "note": "imgui blue 80%"
+  },
+  {
+   "role": "HeaderActive",
+   "hex": "#4296FAFF",
+   "note": ""
+  }
+ ],
+ "gold_edition_brand": [
+  {
+   "role": "Brand gold / headings",
+   "hex": "#F2D15CFF",
+   "note": "6 uses in login+license windows"
+  },
+  {
+   "role": "Rich gold (selected/border)",
+   "hex": "#C79E3DFF",
+   "note": "Table/Account tab decorations"
+  },
+  {
+   "role": "Gold mid",
+   "hex": "#D4AD4AFF",
+   "note": "license panel + login"
+  },
+  {
+   "role": "Gold dark (borders/shadows)",
+   "hex": "#A07828FF",
+   "note": "4 uses"
+  },
+  {
+   "role": "Gold deepest",
+   "hex": "#8C6B29FF",
+   "note": "4 uses"
+  },
+  {
+   "role": "Navy window bg",
+   "hex": "#080D17F5",
+   "note": "main overlay window + license window"
+  },
+  {
+   "role": "Deep navy bg",
+   "hex": "#0D1421FA",
+   "note": "menu sections + login"
+  },
+  {
+   "role": "Navy panel",
+   "hex": "#0F1A2EFF",
+   "note": "panel backgrounds"
+  },
+  {
+   "role": "Slate panel",
+   "hex": "#33425CFF",
+   "note": "sub-panels"
+  },
+  {
+   "role": "Silver-blue text",
+   "hex": "#B2BFD9FF",
+   "note": "labels in gold windows"
+  },
+  {
+   "role": "Muted silver text",
+   "hex": "#9EA8BFFF",
+   "note": "secondary text"
+  },
+  {
+   "role": "Alert red",
+   "hex": "#FF6666FF",
+   "note": "error banners"
+  },
+  {
+   "role": "Error red",
+   "hex": "#BF4040FF / #D95959FF",
+   "note": "error/delete buttons"
+  },
+  {
+   "role": "Deep reds",
+   "hex": "#9E2E2EFF / #C73D3DFF / #732121FF / #B23838FF / #8C2E2EFF",
+   "note": "logout/fail states"
+  }
+ ],
+ "esp_overlay_defaults": [
+  {
+   "role": "cESP line default",
+   "hex": "#FFC0CBFF",
+   "note": "pink"
+  },
+  {
+   "role": "ESP skeleton default",
+   "hex": "#00FF00FF",
+   "note": "green"
+  },
+  {
+   "role": "Aim snapline default",
+   "hex": "#FF0000FF",
+   "note": "red"
+  },
+  {
+   "role": "cAIM_SnapLineBot default",
+   "hex": "#FFFF00FF",
+   "note": "yellow"
+  },
+  {
+   "role": "overlay accent",
+   "hex": "#00FFFFFF",
+   "note": "cyan"
+  },
+  {
+   "role": "cESP_Distance text default",
+   "hex": "#FFA500FF",
+   "note": "orange"
+  },
+  {
+   "role": "Text contrast",
+   "hex": "#000000FF",
+   "note": "black"
+  }
+ ],
+ "coloredit_custom_swatches": [
+  "#FFFFFFD9",
+  "#FFFFFF99",
+  "#FFFFFFB2",
+  "#F2D15CFF",
+  "#8FE8E5E5",
+  "#4D998C87",
+  "#05CC3340",
+  "#00DE6666",
+  "#00D40000",
+  "#03FFE5CC",
+  "#CC66E5A6",
+  "#8FFF8F8F",
+  "#2E3800FF",
+  "#E5D4B2B2",
+  "#B29E4D4D",
+  "#D95959FF",
+  "#FF9900FF",
+  "#E5B200FF",
+  "#A6730000",
+  "#8C828F8F",
+  "#C73D3DFF",
+  "#FF7300FF",
+  "#0D0D1AD9",
+  "#101010FF",
+  "#181818FF",
+  "#1C1C1CFF",
+  "#242424FF",
+  "#282828FF",
+  "#2D2D2DFF",
+  "#37373CFF",
+  "#4F4F4FFF",
+  "#636363FF",
+  "#808080FF",
+  "#9C9C9CFF",
+  "#ADADBDFF",
+  "#DBDBDBFF",
+  "#F0F0F0FF"
+ ]
+}
