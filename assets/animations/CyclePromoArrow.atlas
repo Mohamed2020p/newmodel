@@ -1,0 +1,20 @@
+
+CyclePromoArrow.png
+size: 128,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Promotions_Arrow
+  rotate: false
+  xy: 6, 185
+  size: 68, 173
+  orig: 68, 173
+  offset: 0, 0
+  index: -1
+Promotions_ArrowWhite
+  rotate: false
+  xy: 6, 6
+  size: 68, 173
+  orig: 68, 173
+  offset: 0, 0
+  index: -1
