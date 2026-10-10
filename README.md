@@ -15,6 +15,9 @@ The split APK parts in `large/` are joined into `large/app.apk` (gitignored, 123
   - `palette.json` — all colors (ImGui theme, Gold Edition brand, ESP defaults, picker swatches)
   - `license_api_contract.md` — venomkey.com/connect request + valid-key response contract
   - `strings_mod_menu.txt` — 1,381 decoded mod strings
+- **`hosting/`** — self-hosted **key generator + validator panel** (PHP/SQLite) that speaks the
+  mod's exact `/connect` protocol: key generation, HWID binding, bans, expiry, logs.
+  Deploy guide + full protocol contract in `hosting/README.md`.
 - **`large/`** — the original split APK parts (source data, unmodified).
 
 Nothing else is tracked: game assets, decompiled sources, and encrypted mod blobs

@@ -1,3 +1,6 @@
 large/app.apk
 work/
 tools/
+
+# runtime database of the license panel
+hosting/data/
