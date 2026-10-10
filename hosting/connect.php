@@ -17,7 +17,7 @@ require_once __DIR__ . '/lib.php';
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
     http_response_code(500);
     header('Content-Type: text/plain; charset=utf-8');
-    exit('Method Not Allowed');
+    exit('LICENSE ENDPOINT v3 — makhdamach build. Method Not Allowed (use POST).');
 }
 
 ensure_post();

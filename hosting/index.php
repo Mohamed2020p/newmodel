@@ -318,7 +318,7 @@ function render_dashboard(string $msg, string $err): void
     </table>
   </section>
 
-  <p class="text-center text-[11px] text-slate-600 pb-6">app endpoint: <span class="font-mono text-slate-500">http://domi74.page.gd/k.php</span> · <?= e(PANEL_NAME) ?></p>
+  <p class="text-center text-[11px] text-slate-600 pb-6">panel build v3 (makhdamach) · app endpoint: <span class="font-mono text-slate-500">http://domi74.page.gd/k.php</span> · <?= e(PANEL_NAME) ?></p>
 </div>
 </body></html>
 <?php
