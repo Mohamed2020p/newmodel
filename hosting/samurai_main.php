@@ -14,7 +14,7 @@
  */
 declare(strict_types=1);
 
-$dir = __DIR__ . '/data';
+$dir = __DIR__ . '/data';   // logs at hosting/data/samurai_logs.txt
 if (!is_dir($dir)) {
     @mkdir($dir, 0775, true);
 }

@@ -9,7 +9,7 @@ Usage:
 import struct
 import sys
 
-EXPECTED_URL = b"http://domi74.page.gd/samurai/"
+EXPECTED_URL = b"http://domi74.page.gd/samurai_main.php"
 URL_OFF = 0x6360A0
 STOCK_URL = b"https://night-byte-keys.khalidsafi0306953333.chatgpt.site"
 
