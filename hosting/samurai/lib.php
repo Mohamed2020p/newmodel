@@ -175,13 +175,21 @@ function create_key(int $days, string $note = ''): string
 {
     $rows = keys_load();
     do {
-        $key = KEY_PREFIX . '-' . ($days > 0 ? ($days <= 99 ? sprintf('%02d', $days) : (string)$days) : '00')
-             . '-' . random_suffix(KEY_SUFFIX_LEN);
+        $groups = [];
+        for ($g = 0; $g < KEY_GROUPS; $g++) {
+            $groups[] = random_suffix(KEY_GROUP_LEN);
+        }
+        $key = KEY_PREFIX . '-' . implode('-', $groups);
     } while (keys_find($rows, $key) !== -1);
     $rows[] = ['key' => $key, 'days' => $days, 'status' => 'active',
                'hwid' => '', 'activated' => 0, 'expires' => 0, 'note' => $note];
     keys_save($rows);
     return $key;
+}
+
+function gen_session_id(): string
+{
+    return 'sid-' . bin2hex(random_bytes(16));
 }
 
 function key_status(array $k): string

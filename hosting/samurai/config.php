@@ -13,8 +13,11 @@ define('ADMIN_PASSWORD_HASH', '');
 define('ADMIN_PASSWORD', 'changeme123');
 
 // ---------- Key generation ----------
-define('KEY_PREFIX', 'samurai');
-define('KEY_SUFFIX_LEN', 5);
+// Format: SAMURAI-XXXXX-XXXXX-XXXXX  (25 chars — the app enforces NO fixed
+// length, verified: its only check is non-empty. This is just a clean look.)
+define('KEY_PREFIX', 'SAMURAI');
+define('KEY_GROUPS', 3);
+define('KEY_GROUP_LEN', 5);
 
 // ---------- App endpoint (connect.php) ----------
 // fail-open: even keys we don't know are accepted (pure takeover mode).
