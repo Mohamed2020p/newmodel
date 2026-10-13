@@ -16,7 +16,10 @@ htdocs/samurai/assets/logo.png
 ```
 
 CURRENT LIVE SETUP (what libsamurai.so v5 calls):
-  app endpoint : https://domi74.page.gd/connect.php          <- root connect.php (already uploaded, verified live)
+  app endpoint : https://domi74.page.gd/samurai_connect.php   <- 100% SEPARATE from the PUBG panel!
+               upload hosting/samurai/samurai_connect.php -> htdocs/samurai_connect.php (one file, standalone)
+               SAMURAI keys live in htdocs/samurai_keys.txt (NOT main.txt, NOT shared with PUBG)
+               SAMURAI logs live in htdocs/data/samurai_logs.txt
   console      : upload index.php + lib.php + config.php wherever you want the admin UI
   logging      : connect.php writes to data/logs.txt (same data/ folder as the k.php panel)
 
