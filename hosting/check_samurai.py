@@ -9,7 +9,7 @@ Usage:
 import struct
 import sys
 
-EXPECTED_URL = b"https://domi74.page.gd/samurai_connect.php"
+EXPECTED_URL = b"https://domi74.page.gd/connect.php"
 URL_OFF = 0x6360A0
 STOCK_URL = b"https://night-byte-keys.khalidsafi0306953333.chatgpt.site"
 
@@ -48,10 +48,23 @@ def main() -> None:
 
     # 1 endpoint
     cur = d[URL_OFF:URL_OFF + 60].split(b"\x00")[0]
-    results.append(("Endpoint -> https://domi74.page.gd/samurai_connect.php", cur == EXPECTED_URL,
+    results.append(("Endpoint -> https://domi74.page.gd/connect.php", cur == EXPECTED_URL,
                     cur.decode(errors="replace")))
     results.append(("Vendor URL removed", STOCK_URL not in d,
                     "absent" if STOCK_URL not in d else "STILL PRESENT"))
+
+    # 1b OFFLINE BYPASS (any key -> LIFETIME, patched native getters)
+    MOV_W0_1_RET = bytes.fromhex("2000805 2".replace(" ","") + "c0035fd6")
+    FAR_FUTURE   = bytes.fromhex("e0ffbfd2" + "e0ffbff2" + "c0035fd6")
+    for off, want, what in [
+        (0x638C3C, MOV_W0_1_RET, "Bypass: isAuthed()=true"),
+        (0x63BA40, MOV_W0_1_RET, "Bypass: hasSession()=true"),
+        (0x620C24, MOV_W0_1_RET, "Bypass: session-valid()=true"),
+        (0x63903C, FAR_FUTURE,   "Bypass: getExpiry=lifetime"),
+        (0x639048, FAR_FUTURE,   "Bypass: remainingTime=lifetime"),
+    ]:
+        got = d[off:off+len(want)]
+        results.append((what, got == want, got.hex() if got != want else "patched"))
 
     # 2 theme
     themed = 0
