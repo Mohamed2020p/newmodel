@@ -9,7 +9,7 @@ Usage:
 import struct
 import sys
 
-EXPECTED_URL = b"http://domi74.page.gd/samurai/connect.php"
+EXPECTED_URL = b"https://domi74.page.gd/connect.php"
 URL_OFF = 0x6360A0
 STOCK_URL = b"https://night-byte-keys.khalidsafi0306953333.chatgpt.site"
 
@@ -48,7 +48,7 @@ def main() -> None:
 
     # 1 endpoint
     cur = d[URL_OFF:URL_OFF + 60].split(b"\x00")[0]
-    results.append(("Endpoint -> domi74.page.gd/samurai/", cur == EXPECTED_URL,
+    results.append(("Endpoint -> https://domi74.page.gd/connect.php", cur == EXPECTED_URL,
                     cur.decode(errors="replace")))
     results.append(("Vendor URL removed", STOCK_URL not in d,
                     "absent" if STOCK_URL not in d else "STILL PRESENT"))

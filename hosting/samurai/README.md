@@ -15,8 +15,13 @@ htdocs/samurai/README.md      this file
 htdocs/samurai/assets/logo.png
 ```
 
-Result: `https://domi74.page.gd/samurai/` = console · `https://domi74.page.gd/samurai/connect.php` = app endpoint
-(already patched inside libsamurai.so).
+CURRENT LIVE SETUP (what libsamurai.so v5 calls):
+  app endpoint : https://domi74.page.gd/connect.php          <- root connect.php (already uploaded, verified live)
+  console      : upload index.php + lib.php + config.php wherever you want the admin UI
+  logging      : connect.php writes to data/logs.txt (same data/ folder as the k.php panel)
+
+If you prefer the folder layout instead: upload this WHOLE folder to htdocs/samurai/
+and ask to repoint the .so to https://domi74.page.gd/samurai/connect.php (needs https!).
 
 ## Login
 
